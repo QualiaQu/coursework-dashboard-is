@@ -1,7 +1,6 @@
 package app
 
 import (
-	"dashboard/models"
 	"encoding/json"
 	"fmt"
 	"github.com/go-resty/resty/v2"
@@ -20,7 +19,7 @@ func Run() {
 
 	println(apiURL)
 
-	var response models.Response
+	var response Response
 	if err := json.Unmarshal(resp.Body(), &response); err != nil {
 		fmt.Println("Ошибка при разборе JSON:", err)
 		return
