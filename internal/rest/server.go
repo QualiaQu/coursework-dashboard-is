@@ -8,7 +8,8 @@ import (
 
 func StartServer() {
 	r := gin.Default()
-	r.GET("/endpoint", func(c *gin.Context) {
+
+	r.GET("/get_redmine_versions", func(c *gin.Context) {
 		token := c.DefaultQuery("token", "")
 		if token == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -16,18 +17,26 @@ func StartServer() {
 			})
 			return
 		}
+		c.JSON(http.StatusOK, services.GetResponse(token).GetVersions())
+	})
 
-		services.GetResponse(token)
+	r.GET("/get_redmine_issues", func(c *gin.Context) {
+		token := c.DefaultQuery("token", "")
+		version := c.DefaultQuery("version", "")
 
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Запрос обработан успешно.",
-			"token":   token,
-		})
+		if token == "" || version == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Параметры 'token' и 'version' должны быть указаны.",
+			})
+			return
+		}
+		targetIssues := services.GetResponse(token).GetTargetIssues(version)
+
+		c.JSON(http.StatusOK, targetIssues)
 	})
 
 	err := r.Run(":8080")
 	if err != nil {
 		return
 	}
-
 }

@@ -2,11 +2,11 @@ package services
 
 import "time"
 
-type Response struct {
-	Issues     []Issues `json:"issues"`
-	Limit      int      `json:"limit"`
-	Offset     int      `json:"offset"`
-	TotalCount int      `json:"total_count"`
+type RedmineResponse struct {
+	Issues     []RedmineIssue `json:"issues"`
+	Limit      int            `json:"limit"`
+	Offset     int            `json:"offset"`
+	TotalCount int            `json:"total_count"`
 }
 type Project struct {
 	ID   int    `json:"id"`
@@ -37,7 +37,7 @@ type TargetVersion struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
-type Issues struct {
+type RedmineIssue struct {
 	ID                  int           `json:"id"`
 	Project             Project       `json:"project"`
 	Tracker             Tracker       `json:"tracker"`
@@ -61,14 +61,11 @@ type Issues struct {
 	ClosedOn            any           `json:"closed_on"`
 }
 
-func (r Response) GetAllFixedVersions() []TargetVersion {
-	fixedVersions := make([]TargetVersion, 0)
-
-	for _, issue := range r.Issues {
-		if issue.TargetVersion.ID != 0 { // Проверяем, что TargetVersion задан
-			fixedVersions = append(fixedVersions, issue.TargetVersion)
-		}
-	}
-
-	return fixedVersions
+type Issue struct {
+	Subject   string
+	Status    Status
+	Priority  Priority
+	Assignee  AssignedTo
+	StartDate string
+	DueDate   string
 }
