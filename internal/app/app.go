@@ -1,6 +1,8 @@
 package app
 
-import "dashboard/internal/rest"
+import (
+	"dashboard/internal/transopt/rest"
+)
 
 func Run() {
 	rest.StartServer()

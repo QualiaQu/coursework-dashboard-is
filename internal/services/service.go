@@ -48,8 +48,7 @@ func (r RedmineResponse) GetVersions() []TargetVersion {
 	uniqueVersions := make(map[TargetVersion]bool)
 
 	for _, issue := range r.Issues {
-		if issue.TargetVersion.ID != 0 { // Проверяем, что TargetVersion задан
-			// Добавляем TargetVersion в множество уникальных версий
+		if issue.TargetVersion.ID != 0 {
 			if !uniqueVersions[issue.TargetVersion] {
 				uniqueVersions[issue.TargetVersion] = true
 				fixedVersions = append(fixedVersions, issue.TargetVersion)
