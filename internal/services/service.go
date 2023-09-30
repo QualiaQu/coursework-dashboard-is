@@ -60,8 +60,22 @@ func (r RedmineResponse) GetVersions() []TargetVersion {
 	return fixedVersions
 }
 
-func (r RedmineResponse) GetTargetIssues(targetVersion string) []RedmineIssue {
-	targetIssues := make([]RedmineIssue, 0)
+func (r RedmineResponse) GetTargetIssues(targetVersion string) []Issue {
+	targetIssues := make([]Issue, 0)
+
+	for _, redmineIssue := range r.Issues {
+		if redmineIssue.TargetVersion.Name == targetVersion {
+			issue := Issue{
+				Subject:   redmineIssue.Subject,
+				Status:    redmineIssue.Status,
+				Priority:  redmineIssue.Priority,
+				Assignee:  redmineIssue.AssignedTo,
+				StartDate: redmineIssue.StartDate,
+				DueDate:   redmineIssue.DueDate,
+			}
+			targetIssues = append(targetIssues, issue)
+		}
+	}
 
 	return targetIssues
 }

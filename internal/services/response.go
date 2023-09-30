@@ -67,5 +67,5 @@ type Issue struct {
 	Priority  Priority
 	Assignee  AssignedTo
 	StartDate string
-	DueDate   string
+	DueDate   any
 }
