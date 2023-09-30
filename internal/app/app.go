@@ -1,7 +1,7 @@
 package app
 
 import (
-	"dashboard/internal/transopt/rest"
+	"dashboard/internal/transport/rest"
 )
 
 func Run() {

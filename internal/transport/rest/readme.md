@@ -72,17 +72,17 @@ GET http://localhost:8080/get_redmine_issues?token=YOUR_TOKEN&version=VERSION
   {
     "Subject": "issue 1",
     "Status": {
-    "id": 1,
-    "name": "New",
-    "is_closed": false
+	    "id": 1,
+	    "name": "New",
+	    "is_closed": false
   },
     "Priority": {
-    "id": 2,
-    "name": "Normal"
+	    "id": 2,
+	    "name": "Normal"
   },
     "Assignee": {
-    "id": 0,
-    "name": ""
+	    "id": 0,
+	    "name": ""
   },
     "StartDate": "2023-09-29",
     "DueDate": null
