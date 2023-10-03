@@ -17,7 +17,7 @@ func StartServer() {
 			})
 			return
 		}
-		c.JSON(http.StatusOK, services.GetResponse(token).GetVersions())
+		c.JSON(http.StatusOK, services.GetIssues(token).GetVersions())
 	})
 
 	r.GET("/get_redmine_issues", func(c *gin.Context) {
@@ -30,9 +30,23 @@ func StartServer() {
 			})
 			return
 		}
-		targetIssues := services.GetResponse(token).GetTargetIssues(version)
+		targetIssues := services.GetIssues(token).GetTargetIssues(version)
 
 		c.JSON(http.StatusOK, targetIssues)
+	})
+
+	r.GET("/get_user", func(c *gin.Context) {
+		token := c.DefaultQuery("token", "")
+
+		if token == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Параметр 'token' не указан.",
+			})
+			return
+		}
+		user := services.GetUser(token)
+
+		c.JSON(http.StatusOK, user)
 	})
 
 	err := r.Run(":8080")

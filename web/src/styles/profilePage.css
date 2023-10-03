@@ -9,7 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0; /* Цвет фона страницы */
+    /*background-color: #f0f0f0; !* Цвет фона страницы *!*/
 }
 
 .profile-box {

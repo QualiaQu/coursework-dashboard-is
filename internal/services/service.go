@@ -1,23 +1,23 @@
 package services
 
 import (
+	"dashboard/internal/models"
 	"encoding/json"
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"io/ioutil"
 )
 
-func GetResponse(apiKey string) RedmineResponse {
+func GetIssues(apiKey string) RedmineResponse {
 	client := resty.New()
 	redmineURL := "http://localhost"
 	apiURL := fmt.Sprintf("%s/issues.json", redmineURL)
+	var response RedmineResponse
 
 	resp, err := client.R().
 		SetHeader("Content-Type", "application/json").
 		SetHeader("X-Redmine-API-Key", apiKey).
 		Get(apiURL)
-
-	var response RedmineResponse
 
 	if err != nil {
 		fmt.Printf("Ошибка при выполнении запроса: %v\n", err)
@@ -34,49 +34,36 @@ func GetResponse(apiKey string) RedmineResponse {
 		return response
 	}
 
-	err = saveJSONToFile(resp.Body(), "redmine.json")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return response
-	}
-
 	return response
 }
 
-func (r RedmineResponse) GetVersions() []TargetVersion {
-	fixedVersions := make([]TargetVersion, 0)
-	uniqueVersions := make(map[TargetVersion]bool)
+func GetUser(apiKey string) models.User {
+	client := resty.New()
+	redmineURL := "http://localhost"
+	apiURL := fmt.Sprintf("%s/my/account.json", redmineURL)
+	var user models.User
 
-	for _, issue := range r.Issues {
-		if issue.TargetVersion.ID != 0 {
-			if !uniqueVersions[issue.TargetVersion] {
-				uniqueVersions[issue.TargetVersion] = true
-				fixedVersions = append(fixedVersions, issue.TargetVersion)
-			}
-		}
+	resp, err := client.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("X-Redmine-API-Key", apiKey).
+		Get(apiURL)
+
+	if err != nil {
+		fmt.Printf("Ошибка выполнения GET-запроса: %v\n", err)
+		return user
 	}
 
-	return fixedVersions
-}
-
-func (r RedmineResponse) GetTargetIssues(targetVersion string) []Issue {
-	targetIssues := make([]Issue, 0)
-
-	for _, redmineIssue := range r.Issues {
-		if redmineIssue.TargetVersion.Name == targetVersion {
-			issue := Issue{
-				Subject:   redmineIssue.Subject,
-				Status:    redmineIssue.Status,
-				Priority:  redmineIssue.Priority,
-				Assignee:  redmineIssue.AssignedTo,
-				StartDate: redmineIssue.StartDate,
-				DueDate:   redmineIssue.DueDate,
-			}
-			targetIssues = append(targetIssues, issue)
-		}
+	if resp.StatusCode() != 200 {
+		fmt.Printf("Ошибка при получении данных. Код статуса: %d\n", resp.StatusCode())
+		return user
 	}
 
-	return targetIssues
+	if err := json.Unmarshal(resp.Body(), &user); err != nil {
+		fmt.Println("Ошибка при разборе JSON:", err)
+		return user
+	}
+
+	return user
 }
 
 func saveJSONToFile(data []byte, filename string) error {

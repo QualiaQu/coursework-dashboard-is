@@ -37,6 +37,7 @@ type TargetVersion struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
+
 type RedmineIssue struct {
 	ID                  int           `json:"id"`
 	Project             Project       `json:"project"`
@@ -68,4 +69,40 @@ type Issue struct {
 	Assignee  AssignedTo
 	StartDate string
 	DueDate   any
+}
+
+func (r RedmineResponse) GetVersions() []TargetVersion {
+	fixedVersions := make([]TargetVersion, 0)
+	uniqueVersions := make(map[TargetVersion]bool)
+
+	for _, issue := range r.Issues {
+		if issue.TargetVersion.ID != 0 {
+			if !uniqueVersions[issue.TargetVersion] {
+				uniqueVersions[issue.TargetVersion] = true
+				fixedVersions = append(fixedVersions, issue.TargetVersion)
+			}
+		}
+	}
+
+	return fixedVersions
+}
+
+func (r RedmineResponse) GetTargetIssues(targetVersion string) []Issue {
+	targetIssues := make([]Issue, 0)
+
+	for _, redmineIssue := range r.Issues {
+		if redmineIssue.TargetVersion.Name == targetVersion {
+			issue := Issue{
+				Subject:   redmineIssue.Subject,
+				Status:    redmineIssue.Status,
+				Priority:  redmineIssue.Priority,
+				Assignee:  redmineIssue.AssignedTo,
+				StartDate: redmineIssue.StartDate,
+				DueDate:   redmineIssue.DueDate,
+			}
+			targetIssues = append(targetIssues, issue)
+		}
+	}
+
+	return targetIssues
 }
