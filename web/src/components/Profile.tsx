@@ -1,26 +1,50 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
 import '../styles/profilePage.css';
+
+interface UserProfile {
+    id: number;
+    login: string;
+    admin: boolean;
+    firstname: string;
+    lastname: string;
+    mail: string;
+    created_on: string;
+    last_login_on: string;
+}
 
 interface ProfilePageProps {
     token: string | null;
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
-    const [userInfo, setUserInfo] = useState<any>(null);
+    const [userInfo, setUserInfo] = useState<UserProfile | null>(() => {
+        const storedInfo = localStorage.getItem('userInfo');
+        return storedInfo ? JSON.parse(storedInfo) : null;
+    });
+
+    const navigate = useNavigate(); // Хук для переходов
+
+    const handleLogout = () => {
+
+        localStorage.removeItem('userInfo');
+        navigate('/');
+    };
 
     useEffect(() => {
-        // Фиктивные данные, замените на запрос к вашему серверу
-        const userInfoResponse = {
-            id: 123,
-            login: 'example_user',
-            isAdmin: true,
-            firstName: 'Иван',
-            lastName: 'Иванов',
-            email: 'ivan@example.com',
-            accountCreated: '2021-10-01',
-            lastLogin: '2021-10-05T10:30:00Z',
-        };
-        setUserInfo(userInfoResponse);
+        if (token) {
+
+            axios.get(`http://localhost:8080/get_user?token=${token}`)
+                .then(response => {
+                    const userProfile = response.data.user;
+                    setUserInfo(userProfile);
+                    localStorage.setItem('userInfo', JSON.stringify(userProfile));
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении данных пользователя:', error);
+                });
+        }
     }, [token]);
 
     return (
@@ -31,16 +55,17 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
                     <div>
                         <p><span className="info-label">ID:</span><span className="info-value">{userInfo.id}</span></p>
                         <p><span className="info-label">Логин:</span><span className="info-value">{userInfo.login}</span></p>
-                        <p><span className="info-label">Администратор:</span><span className="info-value">{userInfo.isAdmin ? 'Да' : 'Нет'}</span></p>
-                        <p><span className="info-label">Имя:</span><span className="info-value">{userInfo.firstName}</span></p>
-                        <p><span className="info-label">Фамилия:</span><span className="info-value">{userInfo.lastName}</span></p>
-                        <p><span className="info-label">Email:</span><span className="info-value">{userInfo.email}</span></p>
-                        <p><span className="info-label">Дата создания аккаунта:</span><span className="info-value">{userInfo.accountCreated}</span></p>
-                        <p><span className="info-label">Последний вход:</span><span className="info-value">{userInfo.lastLogin}</span></p>
+                        <p><span className="info-label">Администратор:</span><span className="info-value">{userInfo.admin ? 'Да' : 'Нет'}</span></p>
+                        <p><span className="info-label">Имя:</span><span className="info-value">{userInfo.firstname}</span></p>
+                        <p><span className="info-label">Фамилия:</span><span className="info-value">{userInfo.lastname}</span></p>
+                        <p><span className="info-label">Email:</span><span className="info-value">{userInfo.mail}</span></p>
+                        <p><span className="info-label">Дата создания аккаунта:</span><span className="info-value">{userInfo.created_on}</span></p>
+                        <p><span className="info-label">Последний вход:</span><span className="info-value">{userInfo.last_login_on}</span></p>
                     </div>
                 ) : (
                     <p>Загрузка информации о пользователе...</p>
                 )}
+                <button onClick={handleLogout} className="logout-button">Выход</button>
             </div>
         </div>
     );
