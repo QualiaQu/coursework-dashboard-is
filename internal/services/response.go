@@ -2,7 +2,7 @@ package services
 
 import "time"
 
-type RedmineResponse struct {
+type IssuesResponse struct {
 	Issues     []RedmineIssue `json:"issues"`
 	Limit      int            `json:"limit"`
 	Offset     int            `json:"offset"`
@@ -71,38 +71,16 @@ type Issue struct {
 	DueDate   any
 }
 
-func (r RedmineResponse) GetVersions() []TargetVersion {
-	fixedVersions := make([]TargetVersion, 0)
-	uniqueVersions := make(map[TargetVersion]bool)
-
-	for _, issue := range r.Issues {
-		if issue.TargetVersion.ID != 0 {
-			if !uniqueVersions[issue.TargetVersion] {
-				uniqueVersions[issue.TargetVersion] = true
-				fixedVersions = append(fixedVersions, issue.TargetVersion)
-			}
-		}
-	}
-
-	return fixedVersions
-}
-
-func (r RedmineResponse) GetTargetIssues(targetVersion string) []Issue {
-	targetIssues := make([]Issue, 0)
-
-	for _, redmineIssue := range r.Issues {
-		if redmineIssue.TargetVersion.Name == targetVersion {
-			issue := Issue{
-				Subject:   redmineIssue.Subject,
-				Status:    redmineIssue.Status,
-				Priority:  redmineIssue.Priority,
-				Assignee:  redmineIssue.AssignedTo,
-				StartDate: redmineIssue.StartDate,
-				DueDate:   redmineIssue.DueDate,
-			}
-			targetIssues = append(targetIssues, issue)
-		}
-	}
-
-	return targetIssues
+type UserResponse struct {
+	User struct {
+		ID          int       `json:"id"`
+		Login       string    `json:"login"`
+		Admin       bool      `json:"admin"`
+		Firstname   string    `json:"firstname"`
+		Lastname    string    `json:"lastname"`
+		Mail        string    `json:"mail"`
+		CreatedOn   time.Time `json:"created_on"`
+		LastLoginOn time.Time `json:"last_login_on"`
+		APIKey      string    `json:"api_key"`
+	} `json:"user"`
 }

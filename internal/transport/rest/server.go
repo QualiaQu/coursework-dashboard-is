@@ -8,6 +8,7 @@ import (
 
 func StartServer() {
 	r := gin.Default()
+	//r.Use(cors.Default())
 
 	r.GET("/get_redmine_versions", func(c *gin.Context) {
 		token := c.DefaultQuery("token", "")
@@ -17,7 +18,10 @@ func StartServer() {
 			})
 			return
 		}
-		c.JSON(http.StatusOK, services.GetIssues(token).GetVersions())
+		issues, status := services.GetIssues(token)
+		versions := issues.GetVersions()
+
+		c.JSON(status, versions)
 	})
 
 	r.GET("/get_redmine_issues", func(c *gin.Context) {
@@ -30,9 +34,10 @@ func StartServer() {
 			})
 			return
 		}
-		targetIssues := services.GetIssues(token).GetTargetIssues(version)
+		issues, status := services.GetIssues(token)
+		targetIssues := issues.GetTargetIssues(version)
 
-		c.JSON(http.StatusOK, targetIssues)
+		c.JSON(status, targetIssues)
 	})
 
 	r.GET("/get_user", func(c *gin.Context) {
@@ -44,9 +49,9 @@ func StartServer() {
 			})
 			return
 		}
-		user := services.GetUser(token)
+		user, status := services.GetUser(token)
 
-		c.JSON(http.StatusOK, user)
+		c.JSON(status, user)
 	})
 
 	err := r.Run(":8080")

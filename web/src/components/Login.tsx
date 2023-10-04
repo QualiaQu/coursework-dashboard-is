@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/tokenInputPage.css';
+import axios from 'axios';
 
 interface LoginProps {
     setToken: React.Dispatch<React.SetStateAction<string | null>>;
@@ -8,29 +9,22 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ setToken }) => {
     const [tokenInput, setTokenInput] = useState<string>('');
-    const navigate = useNavigate(); // Использование useNavigate для перенаправления
+    const navigate = useNavigate();
 
     const handleLogin = () => {
+        // Устанавливаем токен в state и localStorage
         setToken(tokenInput);
         localStorage.setItem('token', tokenInput);
 
-        const apiUrl = 'http://localhost:8080/get_user';
+        // Формируем URL с параметром tokenInput
+        const apiUrl = `http://localhost:8080/get_user?token=${tokenInput}`;
 
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${tokenInput}`
-            }
-        })
+        // Выполняем GET-запрос с использованием Axios
+        axios.get(apiUrl)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('User data:', data);
+                console.log('User data:', response.data);
 
+                // Перенаправляем на /profile?token=...
                 navigate(`/profile?token=${tokenInput}`);
             })
             .catch(error => {
