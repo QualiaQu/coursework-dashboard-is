@@ -2,13 +2,14 @@ package rest
 
 import (
 	"dashboard/internal/services"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func StartServer() {
 	r := gin.Default()
-	//r.Use(cors.Default())
+	r.Use(cors.Default())
 
 	r.GET("/get_redmine_versions", func(c *gin.Context) {
 		token := c.DefaultQuery("token", "")
