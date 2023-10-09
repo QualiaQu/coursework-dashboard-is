@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/tokenInputPage.css';
 import axios from 'axios';
@@ -11,20 +11,22 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
     const [tokenInput, setTokenInput] = useState<string>('');
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        // Устанавливаем токен в state и localStorage
-        setToken(tokenInput);
-        localStorage.setItem('token', tokenInput);
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            navigate(`/profile?token=${storedToken}`);
+        }
+    }, [navigate]);
 
-        // Формируем URL с параметром tokenInput
+    const handleLogin = () => {
         const apiUrl = `http://localhost:8080/get_user?token=${tokenInput}`;
 
-        // Выполняем GET-запрос с использованием Axios
         axios.get(apiUrl)
             .then(response => {
-                console.log('User data:', response.data);
-
-                // Перенаправляем на /profile?token=...
+                const userProfile = response.data.user;
+                localStorage.setItem('userInfo', JSON.stringify(userProfile));
+                setToken(tokenInput);
+                localStorage.setItem('token', tokenInput);
                 navigate(`/profile?token=${tokenInput}`);
             })
             .catch(error => {

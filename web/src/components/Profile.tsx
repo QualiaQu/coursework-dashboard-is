@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
+import { useNavigate } from 'react-router-dom';
 import '../styles/profilePage.css';
 
 interface UserProfile {
@@ -19,23 +19,23 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
-    const [userInfo, setUserInfo] = useState<UserProfile | null>(() => {
-        const storedInfo = localStorage.getItem('userInfo');
-        return storedInfo ? JSON.parse(storedInfo) : null;
-    });
-
-    const navigate = useNavigate(); // Хук для переходов
+    const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-
+        localStorage.removeItem('token');
         localStorage.removeItem('userInfo');
         navigate('/');
     };
 
     useEffect(() => {
-        if (token) {
+        const storedToken = localStorage.getItem('token');
+        const tokenToUse = token || storedToken; // Используем токен из пропсов, если он есть, иначе из localStorage
 
-            axios.get(`http://localhost:8080/get_user?token=${token}`)
+        if (tokenToUse) {
+            const apiUrl = `http://localhost:8080/get_user?token=${tokenToUse}`;
+            axios
+                .get(apiUrl)
                 .then(response => {
                     const userProfile = response.data.user;
                     setUserInfo(userProfile);
@@ -44,8 +44,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
                 .catch(error => {
                     console.error('Ошибка при получении данных пользователя:', error);
                 });
+        } else {
+            navigate('/'); // Перенаправляем на страницу авторизации, если нет токена
         }
-    }, [token]);
+    }, [token, navigate]);
 
     return (
         <div className="profile-container">
