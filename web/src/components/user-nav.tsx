@@ -1,7 +1,7 @@
 import {
     Avatar,
     AvatarFallback,
-    AvatarImage,
+    // AvatarImage,
 } from "@/registry/new-york/ui/avatar"
 import { Button } from "@/registry/new-york/ui/button"
 import {
@@ -21,7 +21,7 @@ export function UserNav() {
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-9 w-9">
-                        <AvatarImage src="/avatars/03.png" alt="@shadcn" />
+                        {/*<AvatarImage src="https://avatars.mds.yandex.net/i?id=35eb4061877ca70a159ef06dbc0f7a89d4e188ab-10105725-images-thumbs&n=13" alt="@shadcn" />*/}
                         <AvatarFallback>SC</AvatarFallback>
                     </Avatar>
                 </Button>

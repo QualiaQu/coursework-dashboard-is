@@ -33,32 +33,32 @@ export const columns: ColumnDef<Task>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "id",
+        accessorKey: "subject",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Task" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("subject")}</div>,
         enableSorting: false,
         enableHiding: false,
     },
-    {
-        accessorKey: "title",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Title" />
-        ),
-        cell: ({ row }) => {
-            const label = labels.find((label) => label.value === row.original.label)
-
-            return (
-                <div className="flex space-x-2">
-                    {label && <Badge variant="outline">{label.label}</Badge>}
-                    <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("title")}
-          </span>
-                </div>
-            )
-        },
-    },
+    // {
+    //     accessorKey: "title",
+    //     header: ({ column }) => (
+    //         <DataTableColumnHeader column={column} title="Title" />
+    //     ),
+    //     cell: ({ row }) => {
+    //         const label = labels.find((label) => label.value === row.original.label)
+    //
+    //         return (
+    //             <div className="flex space-x-2">
+    //                 {label && <Badge variant="outline">{label.label}</Badge>}
+    //                 <span className="max-w-[500px] truncate font-medium">
+    //         {row.getValue("title")}
+    //       </span>
+    //             </div>
+    //         )
+    //     },
+    // },
     {
         accessorKey: "status",
         header: ({ column }) => (
@@ -109,6 +109,37 @@ export const columns: ColumnDef<Task>[] = [
                 </div>
             )
         },
+        filterFn: (row, id, value) => {
+            return value.includes(row.getValue(id))
+        },
+    },
+
+    {
+        accessorKey: "Assignee",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Assignee" />
+        ),
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("Assignee")}</div>,
+        filterFn: (row, id, value) => {
+            return value.includes(row.getValue(id))
+        },
+    },
+    {
+        accessorKey: "StartDate",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="StartDate" />
+        ),
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("StartDate")}</div>,
+        filterFn: (row, id, value) => {
+            return value.includes(row.getValue(id))
+        },
+    },
+    {
+        accessorKey: "DueDate",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="DueDate" />
+        ),
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("DueDate")}</div>,
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },

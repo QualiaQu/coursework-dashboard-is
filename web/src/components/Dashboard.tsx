@@ -36,16 +36,17 @@
 // export default Dashboard;
 
 // import React, { useState } from 'react';
-import TaskList from './TaskList';
-import TaskPage from "@/components/page.tsx";
+// import TaskList from './TaskList';
+import TaskPage from "../components/page.tsx";
 
 // import {Button} from "@/components/ui/button.tsx";
+
 
 
 function Dashboard() {
     return (
         <div>
-            <TaskList>Список задач</TaskList>
+            {/*<TaskList>Список задач</TaskList>*/}
             <TaskPage></TaskPage>
         </div>
     );

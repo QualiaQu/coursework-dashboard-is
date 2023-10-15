@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '@/styles/index.css';
+import './styles/index.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TokenInputPage from './components/Login.tsx';
 import ProfilePage from './components/Profile.tsx';
