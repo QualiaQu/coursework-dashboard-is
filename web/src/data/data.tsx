@@ -26,46 +26,91 @@ export const labels = [
 
 export const statuses = [
     {
-        value: "backlog",
-        label: "Backlog",
+        value: "Normal",
+        label: "Normal",
         // icon: QuestionMarkCircledIcon,
     },
     {
-        value: "todo",
-        label: "Todo",
+        value: "Resolved",
+        label: "Resolved",
         // icon: CircleIcon,
     },
     {
-        value: "in progress",
+        value: "New",
+        label: "New",
+        // icon: QuestionMarkCircledIcon,
+    },
+    {
+        value: "In Progress",
         label: "In Progress",
-        // icon: StopwatchIcon,
+        // icon: CircleIcon,
     },
     {
-        value: "done",
-        label: "Done",
-        // icon: CheckCircledIcon,
+        value: "Feedback",
+        label: "Feedback",
+        // icon: QuestionMarkCircledIcon,
     },
     {
-        value: "canceled",
-        label: "Canceled",
-        // icon: CrossCircledIcon,
+        value: "Closed",
+        label: "Closed",
+        // icon: CircleIcon,
     },
+    {
+        value: "Rejected",
+        label: "Rejected",
+        // icon: CircleIcon,
+    },
+    // {
+    //     value: "backlog",
+    //     label: "Backlog",
+    //     // icon: QuestionMarkCircledIcon,
+    // },
+    // {
+    //     value: "todo",
+    //     label: "Todo",
+    //     // icon: CircleIcon,
+    // },
+    // {
+    //     value: "in progress",
+    //     label: "In Progress",
+    //     // icon: StopwatchIcon,
+    // },
+    // {
+    //     value: "done",
+    //     label: "Done",
+    //     // icon: CheckCircledIcon,
+    // },
+    // {
+    //     value: "canceled",
+    //     label: "Canceled",
+    //     // icon: CrossCircledIcon,
+    // },
 ]
 
 export const priorities = [
     {
         label: "Low",
-        value: "low",
+        value: "Low",
         // icon: ArrowDownIcon,
     },
     {
-        label: "Medium",
-        value: "medium",
+        label: "Urgent",
+        value: "Urgent",
         // icon: ArrowRightIcon,
     },
     {
         label: "High",
-        value: "high",
+        value: "High",
         // icon: ArrowUpIcon,
+    },
+    {
+        label: "Normal",
+        value: "Normal",
+        // icon: ArrowDownIcon,
+    },
+    {
+        label: "Immediate",
+        value: "Immediate",
+        // icon: ArrowDownIcon,
     },
 ]

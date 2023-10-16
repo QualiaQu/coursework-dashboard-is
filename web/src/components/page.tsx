@@ -23,30 +23,67 @@ import { taskSchema } from "@/data/schema"
 // }
 //
 // // Simulate a database read for tasks.
-function getTasks() {
+interface GoodTasks{
+    subject: string;
+    title: string;
+    status:  string ;
+    label: string;
+    priority: string ;
+    assignee: string ;
+    startDate: string;
+    dueDate: string | null;
+}
+interface Task {
+    Subject: string;
+    Status: { id: number; name: string };
+    Priority: { id: number; name: string };
+    Assignee: { id: number; name: string };
+    StartDate: string;
+    DueDate: string | null;
+}
 
-    return [
+function getTasks(tasks : Task[]) {
+    // let i:number = 0;
+    const array: GoodTasks[] = []
+    for (let elem of tasks) {
+        // const elem:Task = tasks[i]
+        const goodElem:GoodTasks =
         {
-            subject: "TASK-8782",
-            title: "You can't compress the program without quantifying the open-source SSD pixel!",
-            status: "in progress",
-            label: "documentation",
-            priority: "medium",
-            Assignee: "Петя",
-            StartDate: "02-07-2023",
-            DueDate: "02-10-2023",
-        },
-        {
-            subject: "TASK-7878",
-            title: "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
-            status: "backlog",
-            label: "documentation",
-            priority: "medium",
-            Assignee: "Антон",
-            StartDate: "02-09-2023",
-            DueDate: "",
+            subject : elem.Subject,
+            title : "",
+            status : elem.Status.name,
+            label : "",
+            priority :elem.Priority.name,
+            assignee : elem.Assignee.name,
+            startDate: elem.StartDate,
+            dueDate : elem.DueDate,
         }
-    ]
+        console.log(goodElem)
+        array.push(goodElem)
+    }
+    return array
+    // return [
+    //     {
+    //         subject: "TASK-8782",
+    //         title: "You can't compress the program without quantifying the open-source SSD pixel!",
+    //         status: "in progress",
+    //         label: "documentation",
+    //         priority: "medium",
+    //         Assignee: "Петя",
+    //         StartDate: "02-07-2023",
+    //         DueDate: "02-10-2023",
+    //     },
+    //     {
+    //         subject: "TASK-7878",
+    //         title: "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
+    //         status: "backlog",
+    //         label: "documentation",
+    //         priority: "medium",
+    //         Assignee: "Антон",
+    //         StartDate: "02-09-2023",
+    //         DueDate: "",
+    //     }
+    // ]
     // const tasks = JSON.parse(data.toString())
     //
     // return z.array(taskSchema).parse(tasks)
@@ -184,14 +221,6 @@ function getTasks() {
 
 
 
-interface Task {
-    Subject: string;
-    Status: { id: number; name: string };
-    Priority: { id: number; name: string };
-    Assignee: { id: number; name: string };
-    StartDate: string;
-    DueDate: string | null;
-}
 
 interface Release {
     id: number;
@@ -251,6 +280,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         const tasks = await fetchTasksForRelease(selectedVersion);
         setTasksForRelease(tasks);
     };
+    const good_tasks = getTasks(tasksForRelease)
 
     return (
         <>
@@ -316,7 +346,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
                         <UserNav />
                     </div>
                 </div>
-                <DataTable data={getTasks()} columns={columns} />
+                <DataTable data={good_tasks} columns={columns} />
             </div>
         </>
     );

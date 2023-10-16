@@ -35,7 +35,7 @@ export const columns: ColumnDef<Task>[] = [
     {
         accessorKey: "subject",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Task" />
+            <DataTableColumnHeader column={column} title="Subject" />
         ),
         cell: ({ row }) => <div className="w-[80px]">{row.getValue("subject")}</div>,
         enableSorting: false,
@@ -115,31 +115,31 @@ export const columns: ColumnDef<Task>[] = [
     },
 
     {
-        accessorKey: "Assignee",
+        accessorKey: "assignee",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Assignee" />
+            <DataTableColumnHeader column={column} title="assignee" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("Assignee")}</div>,
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("assignee")}</div>,
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },
     },
     {
-        accessorKey: "StartDate",
+        accessorKey: "startDate",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="StartDate" />
+            <DataTableColumnHeader column={column} title="startDate" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("StartDate")}</div>,
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("startDate")}</div>,
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },
     },
     {
-        accessorKey: "DueDate",
+        accessorKey: "dueDate",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="DueDate" />
+            <DataTableColumnHeader column={column} title="dueDate" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("DueDate")}</div>,
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("dueDate")}</div>,
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },
