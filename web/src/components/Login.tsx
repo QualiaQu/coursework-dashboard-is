@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/tokenInputPage.css';
+import '@/styles/tokenInputPage.css';
 import axios from 'axios';
 
 interface LoginProps {
@@ -27,7 +27,7 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
                 localStorage.setItem('userInfo', JSON.stringify(userProfile));
                 setToken(tokenInput);
                 localStorage.setItem('token', tokenInput);
-                navigate(`/profile?token=${tokenInput}`);
+                navigate(`/dashboard`);
             })
             .catch(error => {
                 console.error('Error fetching user data:', error);
