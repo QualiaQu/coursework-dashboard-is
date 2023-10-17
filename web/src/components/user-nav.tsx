@@ -10,12 +10,22 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu"
+import {useNavigate} from "react-router-dom";
+
+
 
 export function UserNav() {
+
+    const storedUser = localStorage.getItem('userInfo')
+    const storedUserJson = JSON.parse(storedUser || '{}')
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
+        navigate('/');
+    };
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -29,32 +39,19 @@ export function UserNav() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">shadcn</p>
+                        <p className="text-2xl font-medium leading-none">{storedUserJson.login}</p>
                         <p className="text-xs leading-none text-muted-foreground">
-                            m@example.com
+                            {storedUserJson.mail}
                         </p>
                     </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        Profile
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>New Team</DropdownMenuItem>
+                    <DropdownMenuLabel className="text-lg font-medium leading-none">
+                        {storedUserJson.firstname}  {storedUserJson.lastname}
+                    </DropdownMenuLabel>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout} className="logout-button">
                     Log out
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

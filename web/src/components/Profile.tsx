@@ -30,7 +30,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
-        const tokenToUse = token || storedToken; // Используем токен из пропсов, если он есть, иначе из localStorage
+        const tokenToUse = token || storedToken;
 
         if (tokenToUse) {
             const apiUrl = `http://localhost:8080/get_user?token=${tokenToUse}`;
@@ -64,9 +64,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
                         <p><span className="info-label">Дата создания аккаунта:</span><span className="info-value">{userInfo.created_on}</span></p>
                         <p><span className="info-label">Последний вход:</span><span className="info-value">{userInfo.last_login_on}</span></p>
                     </div>
-                ) : (
-                    <p>Загрузка информации о пользователе...</p>
-                )}
+                ) : null}
                 <button onClick={handleLogout} className="logout-button">Выход</button>
             </div>
         </div>
