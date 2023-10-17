@@ -228,6 +228,8 @@ interface Release {
 }
 
 import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 interface TaskPageProps {
     // Добавьте необходимые пропсы
@@ -238,11 +240,16 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     const [selectedRelease, setSelectedRelease] = useState<string>('');
     const [tasksForRelease, setTasksForRelease] = useState<Task[]>([]);
     const storedToken = localStorage.getItem('token');
+    const navigate = useNavigate();
+    if (storedToken == null) {
+        navigate('/');
+    }
     useEffect(() => {
         async function initialize() {
             const releasesData = await fetchReleases();
             setReleases(releasesData);
         }
+
         initialize();
     }, []);
 

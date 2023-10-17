@@ -45,7 +45,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
                     console.error('Ошибка при получении данных пользователя:', error);
                 });
         } else {
-            navigate('/'); // Перенаправляем на страницу авторизации, если нет токена
+            navigate('/');
         }
     }, [token, navigate]);
 
