@@ -1,43 +1,43 @@
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
+/*body {*/
+/*    margin: 0;*/
+/*    font-family: Arial, sans-serif;*/
+/*}*/
 
-.profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+/*.profile-container {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    min-height: 100vh;*/
+/*}*/
 
-.profile-box {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 500px;
-    width: 100%;
-}
+/*.profile-box {*/
+/*    background-color: #fff;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*    padding: 20px;*/
+/*    max-width: 500px;*/
+/*    width: 100%;*/
+/*}*/
 
-.profile-box h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-}
+/*.profile-box h2 {*/
+/*    margin-bottom: 20px;*/
+/*    font-size: 24px;*/
+/*    color: #333;*/
+/*}*/
 
-.profile-box p {
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #555;
-}
+/*.profile-box p {*/
+/*    margin-bottom: 10px;*/
+/*    font-size: 16px;*/
+/*    color: #555;*/
+/*}*/
 
-.profile-box .info-label {
-    font-weight: bold;
-    margin-right: 10px;
-    color: #333;
-}
+/*.profile-box .info-label {*/
+/*    font-weight: bold;*/
+/*    margin-right: 10px;*/
+/*    color: #333;*/
+/*}*/
 
-.profile-box .info-value {
-    color: #007BFF;
-}
+/*.profile-box .info-value {*/
+/*    color: #007BFF;*/
+/*}*/

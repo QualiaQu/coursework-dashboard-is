@@ -18,6 +18,7 @@ interface ProfilePageProps {
     token: string | null;
 }
 
+
 const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
     const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
     const navigate = useNavigate();
@@ -48,6 +49,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
             navigate('/'); // Перенаправляем на страницу авторизации, если нет токена
         }
     }, [token, navigate]);
+
+
 
     return (
         <div className="profile-container">

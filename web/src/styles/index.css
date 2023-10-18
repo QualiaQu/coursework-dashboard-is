@@ -76,11 +76,19 @@
 }
 
 button {
-  background-color: #e30b72;
+  background-color: lightgray;
   position: relative;
-  top: 10px;
+}
+select{
+  background-color: lightgray;
+}
+#page{
+  display: flex;
+  justify-content: flex-end;
 }
 
-table{
 
-}
+/*#profile{*/
+/*  display: flex;*/
+/*  justify-content: flex-end;*/
+/*}*/

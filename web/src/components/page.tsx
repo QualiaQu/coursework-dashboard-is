@@ -1,28 +1,17 @@
-// import { promises as fs } from "fs"
-// import path from "path"
-import { Metadata } from "next"
-// import Image from "next/image"
-// import { z } from "zod"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-    SelectGroup,
-    SelectLabel,
-} from "@/registry/new-york/ui/select"
+// import {
+//     Select,
+//     SelectContent,
+//     SelectItem,
+//     SelectTrigger,
+//     SelectValue,
+//     SelectGroup,
+//     SelectLabel,
+// } from "@/registry/new-york/ui/select"
+
 import { columns } from "@/components/columns"
 import { DataTable } from "@/components/data-table"
 import { UserNav } from "@/components/user-nav"
-import { taskSchema } from "@/data/schema"
-//
-// export const metadata: Metadata = {
-//     title: "Tasks",
-//     description: "A task and issue tracker build using Tanstack Table.",
-// }
-//
-// // Simulate a database read for tasks.
+
 interface GoodTasks{
     subject: string;
     title: string;
@@ -40,6 +29,11 @@ interface Task {
     Assignee: { id: number; name: string };
     StartDate: string;
     DueDate: string | null;
+}
+interface Release {
+    id: number;
+    version: string;
+    name : string;
 }
 
 function getTasks(tasks : Task[]) {
@@ -62,32 +56,8 @@ function getTasks(tasks : Task[]) {
         array.push(goodElem)
     }
     return array
-    // return [
-    //     {
-    //         subject: "TASK-8782",
-    //         title: "You can't compress the program without quantifying the open-source SSD pixel!",
-    //         status: "in progress",
-    //         label: "documentation",
-    //         priority: "medium",
-    //         Assignee: "Петя",
-    //         StartDate: "02-07-2023",
-    //         DueDate: "02-10-2023",
-    //     },
-    //     {
-    //         subject: "TASK-7878",
-    //         title: "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
-    //         status: "backlog",
-    //         label: "documentation",
-    //         priority: "medium",
-    //         Assignee: "Антон",
-    //         StartDate: "02-09-2023",
-    //         DueDate: "",
-    //     }
-    // ]
-    // const tasks = JSON.parse(data.toString())
-    //
-    // return z.array(taskSchema).parse(tasks)
 }
+
 // function getReleases() {
 //     // Simulating fetching releases from JSON file or API endpoint
 //     return [
@@ -135,7 +105,6 @@ function getTasks(tasks : Task[]) {
 //         </>
 //     )
 // }
-
 
 //попытка 2
 // import { useState, useEffect } from 'react'; // Добавлен импорт useState и useEffect
@@ -219,15 +188,8 @@ function getTasks(tasks : Task[]) {
 //     );
 // }
 
-
-
-
-interface Release {
-    id: number;
-    version: string;
-}
-
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from "react-router-dom";
 
 interface TaskPageProps {
     // Добавьте необходимые пропсы
@@ -238,6 +200,10 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     const [selectedRelease, setSelectedRelease] = useState<string>('');
     const [tasksForRelease, setTasksForRelease] = useState<Task[]>([]);
     const storedToken = localStorage.getItem('token');
+    const navigate = useNavigate();
+    if (storedToken == null) {
+        navigate('/');
+    }
     useEffect(() => {
         async function initialize() {
             const releasesData = await fetchReleases();
@@ -247,9 +213,6 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     }, []);
 
     async function fetchReleases(): Promise<Release[]> {
-        // Реализация запроса для получения релизов
-        // Пример:
-
         const response = await fetch(`http://localhost:8080/get_redmine_versions?token=${storedToken}`);
         if (!response.ok) {
             throw new Error('Ошибка сети');
@@ -275,17 +238,19 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     const handleReleaseChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedVersion = event.target.value;
         setSelectedRelease(selectedVersion);
-
-        // Fetch tasks for the selected release
+        localStorage.setItem('versionInfo', JSON.stringify(selectedVersion));
         const tasks = await fetchTasksForRelease(selectedVersion);
         setTasksForRelease(tasks);
     };
     const good_tasks = getTasks(tasksForRelease)
+    const storedVersion = localStorage.getItem('versionInfo');
 
     return (
         <>
+            <UserNav/>
+
             {/*<div>*/}
-            {/*    <Select>*/}
+            {/*    <Select onOpenChange={handleReleaseChange} value={selectedRelease}>*/}
             {/*    <SelectTrigger className="w-[180px]">*/}
             {/*    <SelectValue*/}
             {/*        placeholder="Выберите релиз"*/}
@@ -297,16 +262,17 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             {/*        <SelectGroup>*/}
             {/*            <SelectLabel>Релизы</SelectLabel>*/}
             {/*                {releases.map((release) => (*/}
-            {/*            <SelectItem key={release.id} value={release.id}>*/}
-            {/*                {release.name}*/}
-            {/*            </SelectItem>*/}
+            {/*                    <SelectItem key={release.id} value={release.version}>*/}
+            {/*                        {release.name}*/}
+            {/*                    </SelectItem>*/}
             {/*            ))}*/}
             {/*        </SelectGroup>*/}
             {/*    </SelectContent>*/}
             {/*    </Select>*/}
             {/*</div>*/}
+
             <div>
-                <select onChange={handleReleaseChange} value={selectedRelease}>
+                <select id="sel" onChange={handleReleaseChange} value={selectedRelease}>
                     <option value="">Выберите релиз</option>
                     {releases.map((release) => (
                         <option key={release.id} value={release.version}>
@@ -315,8 +281,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
                     ))}
                 </select>
             </div>
-
-             {/*Остальная часть компонента*/}
+           {/*Остальная часть компонента*/}
             {/*<div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">*/}
             {/*    <div>*/}
             {/*        <h3>Tasks for Selected Release</h3>*/}
@@ -334,20 +299,21 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             {/*        </ul>*/}
             {/*    </div>*/}
             {/*</div>*/}
-            <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+            <div className="h-full flex-1 flex-col w-1/2 space-y-8 p-8 md:flex">
                 <div className="flex items-center justify-between space-y-2">
                     <div>
-                        <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
+                        <h2 className="text-2xl font-bold tracking-tight">Dashboard!</h2>
                         <p className="text-muted-foreground">
-                            Here&apos;s a list of your tasks for this month!
+                            Here is a list of your tasks for this release {storedVersion}!
                         </p>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <UserNav />
+
                     </div>
                 </div>
                 <DataTable data={good_tasks} columns={columns} />
             </div>
+
         </>
     );
 };
