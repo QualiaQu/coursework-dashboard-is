@@ -14,7 +14,7 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         if (storedToken) {
-            navigate(`/profile?token=${storedToken}`);
+            navigate(`/dashboard`);
         }
     }, [navigate]);
 
