@@ -13,9 +13,14 @@ func GetIssues(apiKey string) (IssuesResponse, int) {
 	apiURL := fmt.Sprintf("%s/issues.json", redmineURL)
 	var response IssuesResponse
 
+	queryParams := map[string]string{
+		"status_id": "*", // "5" - статус для закрытых задач
+	}
+
 	resp, err := client.R().
 		SetHeader("Content-Type", "application/json").
 		SetHeader("X-Redmine-API-Key", apiKey).
+		SetQueryParams(queryParams).
 		Get(apiURL)
 
 	if err != nil {
