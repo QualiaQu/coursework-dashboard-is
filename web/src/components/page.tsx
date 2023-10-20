@@ -271,11 +271,11 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             {/*    </Select>*/}
             {/*</div>*/}
 
-            <div>
-                <select id="sel" onChange={handleReleaseChange} value={selectedRelease}>
-                    <option value="">Выберите релиз</option>
+            <div className="flex items-center pl-8 pt-8 justify-between">
+                <select id="sel"  className="h-8 w-[150px] lg:w-[250px] rounded-md border-gray-300" onChange={handleReleaseChange} value={selectedRelease}>
+                    <option  value="">Выберите релиз</option>
                     {releases.map((release) => (
-                        <option key={release.id} value={release.version}>
+                        <option className="border-gray-300" key={release.id} value={release.version}>
                             {release.name}
                         </option>
                     ))}
@@ -300,17 +300,6 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             {/*    </div>*/}
             {/*</div>*/}
             <div className="h-full flex-1 flex-col w-1/2 space-y-8 p-8 md:flex">
-                <div className="flex items-center justify-between space-y-2">
-                    <div>
-                        <h2 className="text-2xl font-bold tracking-tight">Dashboard!</h2>
-                        <p className="text-muted-foreground">
-                            Here is a list of your tasks for this release {storedVersion}!
-                        </p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-
-                    </div>
-                </div>
                 <DataTable data={good_tasks} columns={columns} />
             </div>
 

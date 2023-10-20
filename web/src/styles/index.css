@@ -80,7 +80,7 @@ button {
   position: relative;
 }
 select{
-  background-color: lightgray;
+  border: 1px solid #7E9BBD;
 }
 #page{
   display: flex;
