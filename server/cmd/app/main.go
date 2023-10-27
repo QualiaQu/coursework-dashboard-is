@@ -1,7 +1,7 @@
 package main
 
 import (
-	"dashboard/internal/app"
+	"dashboard/server/internal/app"
 )
 
 func main() {

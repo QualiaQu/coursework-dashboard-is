@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-resty/resty/v2"
-	"io/ioutil"
 )
 
 func GetIssues(apiKey string) (IssuesResponse, int) {
@@ -39,12 +38,6 @@ func GetIssues(apiKey string) (IssuesResponse, int) {
 		return response, 0
 	}
 
-	err = saveJSONToFile(resp.Body(), "response.json")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return response, 0
-	}
-
 	return response, resp.StatusCode()
 }
 
@@ -71,12 +64,6 @@ func GetUser(apiKey string) (UserResponse, int) {
 
 	if err := json.Unmarshal(resp.Body(), &user); err != nil {
 		fmt.Println("Ошибка при разборе JSON:", err)
-		return user, resp.StatusCode()
-	}
-
-	err = saveJSONToFile(resp.Body(), "user.json")
-	if err != nil {
-		fmt.Println("Error:", err)
 		return user, resp.StatusCode()
 	}
 
@@ -117,13 +104,4 @@ func (r IssuesResponse) GetTargetIssues(targetVersion string) []Issue {
 	}
 
 	return targetIssues
-}
-
-func saveJSONToFile(data []byte, filename string) error {
-	err := ioutil.WriteFile(filename, data, 0644)
-	if err != nil {
-		return err
-	}
-	fmt.Println("JSON data saved to", filename)
-	return nil
 }

@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"dashboard/internal/services"
+	"dashboard/server/internal/services"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
