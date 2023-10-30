@@ -29,9 +29,9 @@ export function UserNav() {
             <div className="flex grow-0"></div>
             <DropdownMenu >
                 <DropdownMenuTrigger asChild id="profile" className="flex items-end">
-                    <Button variant="ghost" className="absolute top-0 right-0 m-5 rounded-full">
+                    <Button variant="link" className="absolute h-9 w-9 top-0 right-0 m-5 rounded-b-2\xl">
                         <Avatar className="h-10 w-10">
-                            <AvatarImage src="avatars/free-icon-avatar.png"  />
+                            <AvatarImage src="avatars/profile.svg"/>
                             <AvatarFallback>SC</AvatarFallback>
                         </Avatar>
                     </Button>

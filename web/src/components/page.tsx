@@ -243,8 +243,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         setTasksForRelease(tasks);
     };
     const good_tasks = getTasks(tasksForRelease)
-    const storedVersion = localStorage.getItem('versionInfo');
-
+    localStorage.getItem('versionInfo');
     return (
         <>
             <UserNav/>
