@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '@/styles/tokenInputPage.css';
+import '@/styles/index.css';
 import axios from 'axios';
 
 interface LoginProps {
@@ -35,19 +35,22 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
     };
 
     return (
-        <div className="login-container">
-            <h2 style={{ color: 'black' }}>Авторизация</h2>
-            <input
-                type="text"
-                placeholder="Введите токен"
-                value={tokenInput}
-                onChange={(e) => setTokenInput(e.target.value)}
-                style={{ color: 'black' }}
-            />
-            <button onClick={handleLogin} style={{ backgroundColor: 'white', color: 'black' }}>
-                Войти
-            </button>
+        <div className="m-0 flex justify-center items-center h-screen bg-white">
+            <div className="login-container">
+                <h2 style={{ color: 'black' }}>Авторизация</h2>
+                <input
+                    type="text"
+                    placeholder="Введите токен"
+                    value={tokenInput}
+                    onChange={(e) => setTokenInput(e.target.value)}
+                    style={{ color: 'black' }}
+                />
+                <button id="button-login" onClick={handleLogin}  >
+                    Войти
+                </button>
+            </div>
         </div>
+
     );
 };
 

@@ -79,15 +79,42 @@ button {
   background-color: lightgray;
   position: relative;
 }
+#button-login{
+  background-color: lightgray;
+  color: black;
+  padding-right: 25px;
+  padding-left: 25px;
+  border-radius: 0.2rem;
+}
+#button-login:hover{
+  background-color: #333;
+  color: white;
+}
+
 select{
   border: 1px solid #7E9BBD;
+
 }
 #page{
   display: flex;
   justify-content: flex-end;
 }
 
-
+.login-container {
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    width: 100%;
+}
+input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+}
 /*#profile{*/
 /*  display: flex;*/
 /*  justify-content: flex-end;*/
