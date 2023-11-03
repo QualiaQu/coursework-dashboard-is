@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-resty/resty/v2"
+	"io/ioutil"
 )
 
 func GetIssues(apiKey string) (IssuesResponse, int) {
@@ -92,6 +93,8 @@ func (r IssuesResponse) GetTargetIssues(targetVersion string) []Issue {
 	for _, redmineIssue := range r.Issues {
 		if redmineIssue.TargetVersion.Name == targetVersion {
 			issue := Issue{
+				Project:   redmineIssue.Project,
+				Tracker:   redmineIssue.Tracker,
 				Subject:   redmineIssue.Subject,
 				Status:    redmineIssue.Status,
 				Priority:  redmineIssue.Priority,
@@ -104,4 +107,13 @@ func (r IssuesResponse) GetTargetIssues(targetVersion string) []Issue {
 	}
 
 	return targetIssues
+}
+
+func saveJSONToFile(data []byte, filename string) error {
+	err := ioutil.WriteFile(filename, data, 0644)
+	if err != nil {
+		return err
+	}
+	fmt.Println("JSON data saved to", filename)
+	return nil
 }
