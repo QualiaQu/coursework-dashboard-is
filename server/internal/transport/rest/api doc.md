@@ -70,22 +70,29 @@ GET http://localhost:8080/get_redmine_issues?token=YOUR_TOKEN&version=VERSION
 ```json
 [
   {
-    "Subject": "issue 1",
-    "Status": {
-	    "id": 1,
-	    "name": "New",
-	    "is_closed": false
-  },
-    "Priority": {
-	    "id": 2,
-	    "name": "Normal"
-  },
-    "Assignee": {
-	    "id": 0,
-	    "name": ""
-  },
-    "StartDate": "2023-09-29",
-    "DueDate": null
+    "assignee": {
+      "id": 1,
+      "name": "Rustam Davletkhanov"
+    },
+    "priority": {
+      "id": 2,
+      "name": "Normal"
+    },
+    "project": {
+      "id": 2,
+      "name": "Project 2"
+    },
+    "start_date": "2023-09-29",
+    "status": {
+      "id": 1,
+      "name": "New",
+      "is_closed": false
+    },
+    "subject": "p2 issue",
+    "tracker": {
+      "id": 1,
+      "name": "Bug"
+    }
   }
 ]
 ```
