@@ -14,9 +14,9 @@ import { UserNav } from "@/components/user-nav"
 
 interface GoodTasks{
     subject: string;
-    title: string;
+    project: string;
+    tracker: string;
     status:  string ;
-    label: string;
     priority: string ;
     assignee: string ;
     startDate: string;
@@ -24,6 +24,8 @@ interface GoodTasks{
 }
 interface Task {
     Subject: string;
+    Project: { id: number; name: string };
+    Tracker: { id: number; name: string };
     Status: { id: number; name: string };
     Priority: { id: number; name: string };
     Assignee: { id: number; name: string };
@@ -44,9 +46,9 @@ function getTasks(tasks : Task[]) {
         const goodElem:GoodTasks =
         {
             subject : elem.Subject,
-            title : "",
+            project: elem.Project.name,
+            tracker: elem.Tracker.name,
             status : elem.Status.name,
-            label : "",
             priority :elem.Priority.name,
             assignee : elem.Assignee.name,
             startDate: elem.StartDate,

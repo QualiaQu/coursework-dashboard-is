@@ -63,14 +63,14 @@ type RedmineIssue struct {
 }
 
 type Issue struct {
-	Project   Project    `json:"project"`
-	Tracker   Tracker    `json:"tracker"`
-	Subject   string     `json:"subject,omitempty"`
-	Status    Status     `json:"status"`
-	Priority  Priority   `json:"priority"`
-	Assignee  AssignedTo `json:"assignee"`
-	StartDate string     `json:"start_date,omitempty"`
-	DueDate   any        `json:"due_date,omitempty"`
+	Project   Project
+	Tracker   Tracker
+	Subject   string
+	Status    Status
+	Priority  Priority
+	Assignee  AssignedTo
+	StartDate string
+	DueDate   any
 }
 
 type UserResponse struct {
