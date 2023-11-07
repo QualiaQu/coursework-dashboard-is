@@ -7,7 +7,6 @@ import { ColumnDef } from "@tanstack/react-table"
 import { priorities, statuses } from "../data/data"
 import { Task } from "../data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
 
 export const columns: ColumnDef<Task>[] = [
     {
@@ -16,6 +15,24 @@ export const columns: ColumnDef<Task>[] = [
             <DataTableColumnHeader column={column} title="Subject" />
         ),
         cell: ({ row }) => <div className="w-[80px]">{row.getValue("subject")}</div>,
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
+        accessorKey: "project",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Project" />
+        ),
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("project")}</div>,
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
+        accessorKey: "tracker",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Tracker" />
+        ),
+        cell: ({ row }) => <div className="w-[80px]">{row.getValue("tracker")}</div>,
         enableSorting: false,
         enableHiding: false,
     },
@@ -97,9 +114,5 @@ export const columns: ColumnDef<Task>[] = [
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },
-    },
-    {
-        id: "actions",
-        cell: ({ row }) => <DataTableRowActions row={row} />,
     },
 ]
