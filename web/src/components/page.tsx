@@ -272,7 +272,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             {/*    </Select>*/}
             {/*</div>*/}
 
-            <div className="flex items-center pl-8 pt-8 justify-between">
+            <div className="flex items-center pl-8 pt-4 justify-between">
                 <select id="sel"  className="h-8 w-[150px] lg:w-[250px] rounded-md border-gray-300" onChange={handleReleaseChange} value={selectedRelease}>
                     <option  value="">Выберите релиз</option>
                     {releases.map((release) => (
@@ -300,7 +300,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             {/*        </ul>*/}
             {/*    </div>*/}
             {/*</div>*/}
-            <div className="h-full flex-1 flex-col w-1/2 space-y-8 p-8 md:flex">
+            <div className="h-full flex-1 flex-col w-1/2 space-y-8 px-8 pt-2 md:flex">
                 <DataTable data={good_tasks} columns={columns} />
             </div>
 

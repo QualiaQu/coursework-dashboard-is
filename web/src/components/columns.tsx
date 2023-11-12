@@ -14,7 +14,7 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Subject" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("subject")}</div>,
+        cell: ({ row }) => <div className={`w-[60px] h-${String(row.getValue("subject")).length > 5 ? 7 : 5}`}>{row.getValue("subject")}</div>,
         enableSorting: false,
         enableHiding: false,
     },
@@ -23,7 +23,7 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Project" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("project")}</div>,
+        cell: ({ row }) => <div className={`w-[80px] h-${String(row.getValue("project")).length > 5 ? 7 : 5}`}>{row.getValue("project")}</div>,
         enableSorting: false,
         enableHiding: false,
     },
@@ -32,7 +32,7 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Tracker" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("tracker")}</div>,
+        cell: ({ row }) => <div className={`w-[80px] h-${String(row.getValue("tracker")).length > 5 ? 7 : 5}`}>{row.getValue("tracker")}</div>,
         enableSorting: false,
         enableHiding: false,
     },
@@ -51,7 +51,7 @@ export const columns: ColumnDef<Task>[] = [
             }
 
             return (
-                <div className="flex w-[100px] items-center">
+                <div className={`flex w-[50px] items-center h-3`}>
                     <span>{status.label}</span>
                 </div>
             )
@@ -75,7 +75,7 @@ export const columns: ColumnDef<Task>[] = [
             }
 
             return (
-                <div className="flex items-center">
+                <div className={`flex items-center ${priority.color} h-3`}>
                     <span>{priority.label}</span>
                 </div>
             )
@@ -90,7 +90,7 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Assignee" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("assignee")}</div>,
+        cell: ({ row }) => <div className={`w-[80px] h-${String(row.getValue("assignee")).length > 5 ? 7 : 5}`}>{row.getValue("assignee")}</div>,
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },
@@ -100,19 +100,19 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Start date" />
         ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("startDate")}</div>,
+        cell: ({ row }) => <div className={`w-[80px] h-5`}>{row.getValue("startDate")}</div>,
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },
     },
-    {
-        accessorKey: "dueDate",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Due date" />
-        ),
-        cell: ({ row }) => <div className="w-[80px]">{row.getValue("dueDate")}</div>,
-        filterFn: (row, id, value) => {
-            return value.includes(row.getValue(id))
-        },
-    },
+    // {
+    //     accessorKey: "dueDate",
+    //     header: ({ column }) => (
+    //         <DataTableColumnHeader column={column} title="Due date" />
+    //     ),
+    //     cell: ({ row }) => <div className="w-[80px]">{row.getValue("dueDate")}</div>,
+    //     filterFn: (row, id, value) => {
+    //         return value.includes(row.getValue(id))
+    //     },
+    // },
 ]

@@ -48,21 +48,26 @@ export const priorities = [
     {
         label: "Low",
         value: "Low",
+        color: "bg-teal-200",
     },
     {
         label: "Urgent",
         value: "Urgent",
+        color: "bg-orange-300",
     },
     {
         label: "High",
         value: "High",
+        color: "bg-amber-200",
     },
     {
         label: "Normal",
         value: "Normal",
+        color: "bg-green-300",
     },
     {
         label: "Immediate",
         value: "Immediate",
+        color: "bg-red-300",
     },
 ]
