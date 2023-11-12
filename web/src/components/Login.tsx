@@ -34,6 +34,12 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
             });
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    };
+
     return (
         <div className="m-0 flex justify-center items-center h-screen bg-white">
             <div className="login-container">
@@ -43,6 +49,7 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
                     placeholder="Введите токен"
                     value={tokenInput}
                     onChange={(e) => setTokenInput(e.target.value)}
+                    onKeyPress={handleKeyPress}
                     style={{ color: 'black' }}
                 />
                 <button id="button-login" onClick={handleLogin}  >
