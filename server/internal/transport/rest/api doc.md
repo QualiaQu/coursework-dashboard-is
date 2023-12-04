@@ -96,3 +96,74 @@ GET http://localhost:8080/get_redmine_issues?token=YOUR_TOKEN&version=VERSION
   }
 ]
 ```
+
+## Добавление/обновление информации о версии
+
+### URL
+
+**POST** `/set_version_info`
+
+### Параметры запроса
+
+- `version` (обязательный): Номер версии.
+- `store` (обязательный): Название магазина приложений.
+- `deployDate` (необязательный): Дата деплоя.
+- `approvalDate` (необязательный): Дата согласования.
+- `installPercentage` (необязательный): Процент раскатки.
+
+### Описание
+Эндпоинт для добавления или изменения информации версии.
+
+### Примеры запросов
+
+#### Запрос
+
+POST http://localhost:8080/set_version_info?version=1.0.1&store=Google%20Play&deployDate=2023-12-02&approvalDate=2023-12-02&installPercentage=0.8
+
+#### Пример ответа
+
+```json
+{
+"message": "Информация о версии успешно добавлена."
+}
+```
+
+## Получение информации о версии
+
+### URL
+
+**GET** `/get_version_info`
+
+### Параметры запроса
+
+- `version` (обязательный): Номер версии.
+
+### Описание
+Эндпоинт для получения информации о версии.
+
+### Примеры запросов
+
+#### Запрос
+
+GET http://localhost:8080/set_version_info?version=1.0.1&store=Google%20Play&deployDate=2023-12-02&approvalDate=2023-12-02&installPercentage=0.8
+
+#### Пример ответа
+
+```json
+[
+  {
+    "Version": "1.0.0",
+    "Store": "AppStore",
+    "DeployDate": "2023-12-02",
+    "ApprovalDate": "2023-12-02",
+    "InstallPercentage": 0.8
+  },
+  {
+    "Version": "1.0.0",
+    "Store": "Google Play",
+    "DeployDate": "2023-12-02",
+    "ApprovalDate": "2023-12-02",
+    "InstallPercentage": 0.8
+  }
+]
+```
