@@ -119,3 +119,43 @@ input {
 /*  display: flex;*/
 /*  justify-content: flex-end;*/
 /*}*/
+.page-main{
+  display: flex;
+}
+.table-platforms-cont{
+  width: 40%;
+}
+.table-platforms{
+  margin-right: 20px;
+}
+.table-platforms-header{
+  display: flex;
+}
+.shop_header{
+  margin-right: 28px;
+}
+.date-deploy_header{
+  margin-right: 80px;
+}
+.date-agree_header{
+  margin-right: 38px;
+}
+.cell{
+  display: flex;
+  gap: 30px;
+  margin-top: 5px;
+}
+.shop{
+  width: 120px;
+  margin-right: 15px;
+}
+
+.huawei{
+  margin-right: 4px;
+}
+.rustore{
+  margin-right: 4px;
+}
+.date-deploy{
+  width: 95px;
+}

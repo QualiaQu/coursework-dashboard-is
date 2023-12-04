@@ -1,9 +1,6 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-
-// import { Badge } from "@/registry/new-york/ui/badge"
-
 import { priorities, statuses } from "../data/data"
 import { Task } from "../data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
@@ -14,7 +11,7 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Subject" />
         ),
-        cell: ({ row }) => <div className={`w-[60px] h-${String(row.getValue("subject")).length > 5 ? 7 : 5}`}>{row.getValue("subject")}</div>,
+        cell: ({ row }) => <div className={`w-[60px] pl-2 h-${String(row.getValue("subject")).length > 10 ? 10 : 5}`}>{row.getValue("subject")}</div>,
         enableSorting: false,
         enableHiding: false,
     },
@@ -90,7 +87,7 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Assignee" />
         ),
-        cell: ({ row }) => <div className={`w-[80px] h-${String(row.getValue("assignee")).length > 5 ? 7 : 5}`}>{row.getValue("assignee")}</div>,
+        cell: ({ row }) => <div className={`w-[80px] pl-2 h-${String(row.getValue("assignee")).length > 10 ? 10 : 5}`}>{row.getValue("assignee")}</div>,
         filterFn: (row, id, value) => {
             return value.includes(row.getValue(id))
         },
