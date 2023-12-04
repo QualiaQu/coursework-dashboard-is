@@ -1,4 +1,4 @@
-package services
+package models
 
 import "time"
 
@@ -85,4 +85,42 @@ type UserResponse struct {
 		LastLoginOn time.Time `json:"last_login_on"`
 		APIKey      string    `json:"api_key"`
 	} `json:"user"`
+}
+
+func (r IssuesResponse) GetVersions() []TargetVersion {
+	fixedVersions := make([]TargetVersion, 0)
+	uniqueVersions := make(map[TargetVersion]bool)
+
+	for _, issue := range r.Issues {
+		if issue.TargetVersion.ID != 0 {
+			if !uniqueVersions[issue.TargetVersion] {
+				uniqueVersions[issue.TargetVersion] = true
+				fixedVersions = append(fixedVersions, issue.TargetVersion)
+			}
+		}
+	}
+
+	return fixedVersions
+}
+
+func (r IssuesResponse) GetTargetIssues(targetVersion string) []Issue {
+	targetIssues := make([]Issue, 0)
+
+	for _, redmineIssue := range r.Issues {
+		if redmineIssue.TargetVersion.Name == targetVersion {
+			issue := Issue{
+				Project:   redmineIssue.Project,
+				Tracker:   redmineIssue.Tracker,
+				Subject:   redmineIssue.Subject,
+				Status:    redmineIssue.Status,
+				Priority:  redmineIssue.Priority,
+				Assignee:  redmineIssue.AssignedTo,
+				StartDate: redmineIssue.StartDate,
+				DueDate:   redmineIssue.DueDate,
+			}
+			targetIssues = append(targetIssues, issue)
+		}
+	}
+
+	return targetIssues
 }

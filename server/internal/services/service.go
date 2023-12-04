@@ -1,20 +1,21 @@
 package services
 
 import (
+	"dashboard/server/internal/models"
 	"encoding/json"
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"io/ioutil"
 )
 
-func GetIssues(apiKey string) (IssuesResponse, int) {
+func GetIssues(apiKey string) (models.IssuesResponse, int) {
 	client := resty.New()
 	redmineURL := "http://localhost"
 	apiURL := fmt.Sprintf("%s/issues.json", redmineURL)
-	var response IssuesResponse
+	var response models.IssuesResponse
 
 	queryParams := map[string]string{
-		"status_id": "*", // "5" - статус для закрытых задач
+		"status_id": "*",
 	}
 
 	resp, err := client.R().
@@ -42,11 +43,11 @@ func GetIssues(apiKey string) (IssuesResponse, int) {
 	return response, resp.StatusCode()
 }
 
-func GetUser(apiKey string) (UserResponse, int) {
+func GetUser(apiKey string) (models.UserResponse, int) {
 	client := resty.New()
 	redmineURL := "http://localhost"
 	apiURL := fmt.Sprintf("%s/my/account.json", redmineURL)
-	var user UserResponse
+	var user models.UserResponse
 
 	resp, err := client.R().
 		SetHeader("Content-Type", "application/json").
@@ -69,44 +70,6 @@ func GetUser(apiKey string) (UserResponse, int) {
 	}
 
 	return user, resp.StatusCode()
-}
-
-func (r IssuesResponse) GetVersions() []TargetVersion {
-	fixedVersions := make([]TargetVersion, 0)
-	uniqueVersions := make(map[TargetVersion]bool)
-
-	for _, issue := range r.Issues {
-		if issue.TargetVersion.ID != 0 {
-			if !uniqueVersions[issue.TargetVersion] {
-				uniqueVersions[issue.TargetVersion] = true
-				fixedVersions = append(fixedVersions, issue.TargetVersion)
-			}
-		}
-	}
-
-	return fixedVersions
-}
-
-func (r IssuesResponse) GetTargetIssues(targetVersion string) []Issue {
-	targetIssues := make([]Issue, 0)
-
-	for _, redmineIssue := range r.Issues {
-		if redmineIssue.TargetVersion.Name == targetVersion {
-			issue := Issue{
-				Project:   redmineIssue.Project,
-				Tracker:   redmineIssue.Tracker,
-				Subject:   redmineIssue.Subject,
-				Status:    redmineIssue.Status,
-				Priority:  redmineIssue.Priority,
-				Assignee:  redmineIssue.AssignedTo,
-				StartDate: redmineIssue.StartDate,
-				DueDate:   redmineIssue.DueDate,
-			}
-			targetIssues = append(targetIssues, issue)
-		}
-	}
-
-	return targetIssues
 }
 
 func saveJSONToFile(data []byte, filename string) error {
