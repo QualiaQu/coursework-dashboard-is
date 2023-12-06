@@ -63,9 +63,15 @@ func StartServer() {
 		version := c.DefaultQuery("version", "")
 		store := c.DefaultQuery("store", "")
 		deployDate := c.DefaultQuery("deployDate", "")
-		approvalDate := c.DefaultQuery("approvalDate", "")
 		installPercentageStr := c.DefaultQuery("installPercentage", "")
 		installPercentage, err := strconv.ParseFloat(installPercentageStr, 64)
+		isErrorsStr := c.DefaultQuery("isErrors", "")
+		var isErrors int
+		if isErrorsStr == "true" {
+			isErrors = 1
+		} else {
+			isErrors = 0
+		}
 
 		if version == "" || store == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -74,7 +80,7 @@ func StartServer() {
 			return
 		}
 
-		err = database.SetVersionInfo(db, version, store, deployDate, approvalDate, installPercentage)
+		err = database.SetVersionInfo(db, version, store, deployDate, installPercentage, isErrors)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": "О нет! Ошибочка при добавлении данных в бд",
@@ -99,7 +105,7 @@ func StartServer() {
 		versions, err := database.GetVersionInfo(db, version)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "О нет! Ошибочка при добавлении данных в бд",
+				"error": "О нет! Ошибочка при получении данных из бд",
 			})
 			return
 		}
