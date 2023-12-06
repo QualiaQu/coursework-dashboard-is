@@ -118,7 +118,7 @@ GET http://localhost:8080/get_redmine_issues?token=YOUR_TOKEN&version=VERSION
 
 #### Запрос
 
-POST http://localhost:8080/set_version_info?version=1.0.1&store=Google%20Play&deployDate=12-02-2023&approvalDate=2023-12-02&installPercentage=0.8
+POST http://localhost:8080/set_version_info?version=1.0.1&store=Google%20Play&deployDate=12-02-2023&installPercentage=0.8&isErrors=true
 
 #### Пример ответа
 
