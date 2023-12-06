@@ -5,6 +5,8 @@ import { DatePickerDemo } from "@/registry/new-york/ui/date-picker.tsx"
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import { Input } from "@/registry/new-york/ui/input"
+import { Progress } from "@/components/ui/progress"
+
 
 
 interface GoodTasks{
@@ -32,6 +34,20 @@ interface Release {
     version: string;
     name : string;
 }
+
+function counterClosed(tasks : GoodTasks[]){
+    let count = 0;
+    for (let elem of tasks) {
+
+        if(elem.status == "Closed" ){
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            count+=1;
+        }
+
+    }
+    return count;
+}
+
 
 function getTasks(tasks : Task[]) {
     // let i:number = 0;
@@ -106,6 +122,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         setTasksForRelease(tasks);
     };
     const good_tasks = getTasks(tasksForRelease)
+    const closed_tasks = counterClosed(good_tasks)
     localStorage.getItem('versionInfo');
     return (
         <>
@@ -122,6 +139,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             </div>
             <div className="page-main">
                 <div className="h-full flex-1 flex-col w-1/2 space-y-8 px-8 pt-2 md:flex">
+                    <Progress openTasks={good_tasks.length} closedTasks={closed_tasks} />
                     <DataTable data={good_tasks} columns={columns} />
                 </div>
                 <div className="table-platforms-cont pt-2">
