@@ -20,6 +20,7 @@ export function UserNav() {
     const storedUserJson = JSON.parse(storedUser || '{}')
     const navigate = useNavigate();
     const handleLogout = () => {
+        localStorage.clear()
         localStorage.removeItem('token');
         localStorage.removeItem('userInfo');
         navigate('/');

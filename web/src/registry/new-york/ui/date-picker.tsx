@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
-import { format } from "date-fns"
+// import * as React from "react"
+import { format, parseISO } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -11,10 +11,20 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/registry/new-york/ui/popover"
+import { useState, useEffect } from 'react';
+import * as moment from "moment";
 
-export function DatePickerDemo() {
-    const [date, setDate] = React.useState<Date>()
 
+// interface DatePickerProps {
+//     currentDate: string;
+// }
+
+export function DatePickerDemo(s) {
+    const [date, setDate] = useState<Date>()
+    //
+    // useEffect(() => {
+    //     setDate(new Date(parseISO(currentDate)));
+    // }, []);
     return (
         <Popover>
             <PopoverTrigger asChild>
@@ -40,3 +50,23 @@ export function DatePickerDemo() {
         </Popover>
     )
 }
+
+const MyDatePicker = props => (
+    <div>
+        <DatePickerDemo
+            {...props.input}
+            dateFormat="DD-MM-YYYY"
+            selected={props.input.value ? moment(props.input.value, 'DD-MM-YYYY') : moment()}
+            placeholderText={props.placeholder}
+            disabled={props.disabled}
+        />
+        {
+            props.meta.touched && props.meta.error &&
+            <span className="error">
+        { props.intl.formatMessage({ id: props.meta.error }) }
+      </span>
+        }
+    </div>
+);
+
+export default MyDatePicker;

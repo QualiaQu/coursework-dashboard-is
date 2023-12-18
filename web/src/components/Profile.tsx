@@ -24,8 +24,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ token }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userInfo');
+        localStorage.clear()
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('userInfo');
+
         navigate('/');
     };
 

@@ -1,12 +1,13 @@
 import { columns } from "@/components/columns"
 import { DataTable } from "@/components/data-table"
+import { TableStores } from "@/components/table-stores.tsx"
 import { UserNav } from "@/components/user-nav"
 import { DatePickerDemo } from "@/registry/new-york/ui/date-picker.tsx"
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import { Input } from "@/registry/new-york/ui/input"
 import { Progress } from "@/components/ui/progress"
-
+// token ba7370ee222dc3fbab4b745b295ccae71cad12d0
 
 
 interface GoodTasks{
@@ -34,6 +35,15 @@ interface Release {
     version: string;
     name : string;
 }
+interface Store {
+    Version: string;
+    Store: string;
+    DeployDate : string | undefined;
+    // ApprovalDate: string;
+    InstallPercentage:string;
+    IsErrors: string;
+}
+
 
 function counterClosed(tasks : GoodTasks[]){
     let count = 0;
@@ -65,7 +75,7 @@ function getTasks(tasks : Task[]) {
             startDate: elem.StartDate,
             dueDate : elem.DueDate,
         }
-        console.log(goodElem)
+        // console.log(goodElem)
         array.push(goodElem)
     }
     return array
@@ -78,9 +88,11 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     const [releases, setReleases] = useState<Release[]>([]);
     const [selectedRelease, setSelectedRelease] = useState<string>('');
     const [tasksForRelease, setTasksForRelease] = useState<Task[]>([]);
+    const [storesForRelease, setStoresForRelease] = useState<Store[]>([]);
     const storedToken = localStorage.getItem('token');
     const navigate = useNavigate();
     if (storedToken == null) {
+
         navigate('/');
     }
     useEffect(() => {
@@ -92,6 +104,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     }, []);
 
     async function fetchReleases(): Promise<Release[]> {
+        console.log(storedToken)
         const response = await fetch(`http://localhost:8080/get_redmine_versions?token=${storedToken}`);
         if (!response.ok) {
             throw new Error('Ошибка сети');
@@ -103,27 +116,51 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     async function fetchTasksForRelease(version: string): Promise<Task[]> {
         try {
             const response = await fetch(`http://localhost:8080/get_redmine_issues?token=${storedToken}&version=${version}`);
-            if (!response.ok) {
+            // const response2 = await fetch(`http://localhost:8080/get_version_info?version=${version}`);
+            if (!response.ok /*&& !response2.ok*/) {
                 throw new Error('Ошибка сети');
             }
             const data = await response.json();
+            // const store = await response2.json();
+            // setStoresForRelease(store)
+            // localStorage.setItem('storesInfo', JSON.stringify(store));
             return data;
         } catch (error) {
             console.error('Ошибка при получении задач для релиза:', error);
             return [];
         }
     }
+    async function fetchStoreForRelease(version: string): Promise<Store[]> {
+        try {
+            const response = await fetch(`http://localhost:8080/get_version_info?version=${version}`);
+            if (!response.ok) {
+                throw new Error('Ошибка сети');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Ошибка при получении информации по магазинам для релиза:', error);
+            return [];
+        }
+    }
 
     const handleReleaseChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+        localStorage.removeItem('versionInfo')
+        localStorage.removeItem('storesInfo')
         const selectedVersion = event.target.value;
+        console.log(selectedVersion, '#####версия или выберите релиз')
         setSelectedRelease(selectedVersion);
         localStorage.setItem('versionInfo', JSON.stringify(selectedVersion));
         const tasks = await fetchTasksForRelease(selectedVersion);
+        const stores = await fetchStoreForRelease(selectedVersion)
         setTasksForRelease(tasks);
+        setStoresForRelease(stores)
     };
+    // localStorage.removeItem('apllePercentageInfo')
     const good_tasks = getTasks(tasksForRelease)
     const closed_tasks = counterClosed(good_tasks)
     localStorage.getItem('versionInfo');
+    // console.log(selectedRelease, storesForRelease[0].Version, '?+?+?+?+?+?+?')
     return (
         <>
             <UserNav/>
@@ -138,45 +175,11 @@ const TaskPage: React.FC<TaskPageProps> = () => {
                 </select>
             </div>
             <div className="page-main">
-                <div className="h-full flex-1 flex-col w-1/2 space-y-8 px-8 pt-2 md:flex">
+                <div className="h-full flex-1 flex-col w-1/2 space-y-2 px-8 pt-2 md:flex">
                     <Progress openTasks={good_tasks.length} closedTasks={closed_tasks} />
                     <DataTable data={good_tasks} columns={columns} />
                 </div>
-                <div className="table-platforms-cont pt-2">
-                    <div className="table-platforms border rounded-md p-1 font-medium text-sm text-muted-foreground">
-                        <div className="table-platforms-header">
-                            <h2 className="shop_header">Магазин</h2>
-                            <h2 className="date-deploy_header">Дата деплоя</h2>
-                            <h2 className="date-agree_header">Дата согласования</h2>
-                            <h2>Процент раскатки</h2>
-                        </div>
-                        <div className="cell">
-                            <h2 className="shop google">Gogle</h2>
-                            <DatePickerDemo></DatePickerDemo>
-                            <DatePickerDemo></DatePickerDemo>
-                            <Input className="w-[130px]"></Input>
-                        </div>
-                        <div className="cell">
-                            <h2 className="shop apple">Apple</h2>
-                            <DatePickerDemo></DatePickerDemo>
-                            <DatePickerDemo></DatePickerDemo>
-                            <Input className="w-[130px]"></Input>
-                        </div>
-                        <div className="cell">
-                            <h2 className="shop huawei">Huawei</h2>
-                            <DatePickerDemo></DatePickerDemo>
-                            <DatePickerDemo></DatePickerDemo>
-                            <Input className="w-[130px]"></Input>
-                        </div>
-                        <div className="cell">
-                            <h2 className="shop rustore">Rustore</h2>
-                            <DatePickerDemo></DatePickerDemo>
-                            <DatePickerDemo></DatePickerDemo>
-                            <Input className="w-[130px]"></Input>
-                        </div>
-                    </div>
-                </div>
-
+                <TableStores version={selectedRelease} stores={storesForRelease}></TableStores>
             </div>
         </>
     );
