@@ -8,7 +8,7 @@ import Dashboard from "./components/Dashboard.tsx";
 
 const App: React.FC = () => {
     const [token, setToken] = useState<string | null>(null);
-
+    // localStorage.clear() // ba7370ee222dc3fbab4b745b295ccae71cad12d0
     return (
         <Router>
             <Routes>
