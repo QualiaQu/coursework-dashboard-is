@@ -18,6 +18,13 @@ const Progress = React.forwardRef<
     const progress = totalTasks > 0 ? (closedTasks / totalTasks) * 100 : 0;
 
     return (
+        <div className="relative">
+            <div
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold"
+                style={{ zIndex: 1, textShadow: '1px 1px 2px #000' }}
+            >
+                {progress.toFixed(2)}%
+            </div>
         <ProgressPrimitive.Root
             ref={ref}
             className={cn(
@@ -31,6 +38,7 @@ const Progress = React.forwardRef<
                 style={{ transform: `translateX(-${100 - progress}%)` }}
             />
         </ProgressPrimitive.Root>
+        </div>
     );
 });
 
