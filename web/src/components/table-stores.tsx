@@ -262,9 +262,9 @@ export function TableStores({
 
 
 
-    if (version == "\"\"" || version == null){
-        return <div className="w-1/2"></div>
-    }
+    // if (version == "\"\"" || version == null){
+    //     return <div className="w-1/2"></div>
+    // }
 
     // const sInfo = localStorage.getItem('infoStores') != null ? JSON.parse(localStorage.getItem('infoStores')) : []
     console.log("infoPROPS", stores, stores.length, stores.length >= 1 )
