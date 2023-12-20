@@ -16,10 +16,10 @@ func Start() (db *sql.DB) {
 	sqlStmt :=
 		`CREATE TABLE IF NOT EXISTS app_versions (
 		version TEXT NOT NULL,
-		store TEXT NOT NULL,
-		deploy_date TEXT NOT NULL,
-		install_percentage REAL NOT NULL,
-		is_errors INTEGER NOT NULL);`
+		store TEXT,
+		deploy_date TEXT,
+		install_percentage REAL,
+		is_errors INTEGER);`
 	_, err = db.Exec(sqlStmt)
 	if err != nil {
 		log.Printf("%q: %s\n", err, sqlStmt)
