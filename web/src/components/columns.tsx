@@ -11,7 +11,7 @@ export const columns: ColumnDef<Task>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Subject" />
         ),
-        cell: ({ row }) => <div className={`w-[60px] pl-2 h-${String(row.getValue("subject")).length > 10 ? 10 : 5}`}>{row.getValue("subject")}</div>,
+        cell: ({ row }) => <div className={`w-[60px] pl-2 h-${String(row.getValue("subject")).length > 7 ? 10 : 5}`}>{row.getValue("subject")}</div>,
         enableSorting: false,
         enableHiding: false,
     },
