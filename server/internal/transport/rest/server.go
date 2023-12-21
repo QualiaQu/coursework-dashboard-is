@@ -69,7 +69,7 @@ func StartServer() {
 		var isErrors int
 		if isErrorsStr == "true" {
 			isErrors = 1
-		} else {
+		} else if isErrorsStr == "false" {
 			isErrors = 0
 		}
 

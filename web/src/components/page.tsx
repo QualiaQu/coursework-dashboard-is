@@ -99,9 +99,18 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         async function initialize() {
             const releasesData = await fetchReleases();
             setReleases(releasesData);
+
+            const dataUpdateIntervalId = setInterval(async () => {
+                if (selectedRelease) {
+                    const updatedTasks = await fetchTasksForRelease(selectedRelease);
+                    setTasksForRelease(updatedTasks);
+                }
+            }, 60000);
         }
+
+        // Вызов функции инициализации
         initialize();
-    }, []);
+    }, [selectedRelease]);
 
     async function fetchReleases(): Promise<Release[]> {
         console.log(storedToken)
@@ -111,6 +120,8 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         }
         const data = await response.json();
         return data;
+
+
     }
 
     async function fetchTasksForRelease(version: string): Promise<Task[]> {
