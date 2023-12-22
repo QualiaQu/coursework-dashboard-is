@@ -1,13 +1,10 @@
 import {DatePickerDemo} from "@/registry/new-york/ui/date-picker.tsx";
-import { Switch } from "@/registry/new-york/ui/switch"
-
 import {Input} from "@/registry/new-york/ui/input.tsx";
 import React, { useState, useEffect } from 'react';
 import MyDatePicker from "@/registry/new-york/ui/date-picker.tsx";
-import {ArrowDownIcon, ArrowUpIcon, CaretSortIcon} from "@radix-ui/react-icons";
 import {Button} from "@/registry/new-york/ui/button.tsx";
 import axios from "axios";
-import {ColumnDef} from "@tanstack/react-table";
+
 interface Store {
     Version: string;
     Store: string;
@@ -16,8 +13,6 @@ interface Store {
     InstallPercentage:string;
     IsErrors: string;
 }
-//криво косо сохраняет данные
-//проблема если не все магазины есть в бд
 interface DataTableProps {
     version: string,
     stores: Store[]
@@ -27,40 +22,18 @@ export function TableStores({
                                 version,
                                 stores,
                               }: DataTableProps){
-    const [versionN, setVersionN] = useState(version)
     const [storesN, setStoresN] = useState<Store[]>(stores)
     const [storeGoogle, setGoogle] = useState<Store>()
-
     const [storeApple, setApple] = useState<Store>()
     const [storeHuawei, setHuawei] = useState<Store>()
     const [storeRuStore, setRuStore] = useState<Store>()
-    const [GoogleDeplotInfo, setGoogleDeplotInfo] = useState("Введите даты")
-    const [state, setState] = React.useState(false);
     const [isErrorsGo, setIsErrorsGo] = React.useState(false);
     const [isErrorsAp, setIsErrorsAp] = React.useState(false);
     const [isErrorsHu, setIsErrorsHu] = React.useState(false);
     const [isErrorsRu, setIsErrorsRu] = React.useState(false);
     useEffect(() => {
         async function initialize() {
-
             setStoresN(stores)
-            // if(stores.length == 0){
-            //     return
-            // }else if(stores.length == 1){
-            //     if(stores[0].Store == "Google Play"){
-            //         setGoogle(stores[0])
-            //     }else if(stores[0].Store == "App Store"){
-            //         setApple(stores[0])
-            //     }else if(stores[0].Store == "Huawei AppGallery"){
-            //         setHuawei(stores[0])
-            //     }else if(stores[0].Store == "RuStore"){
-            //         setRuStore(stores[0])
-            //     }
-            //
-            // }else if(stores.length == 2){
-            //     setApple(stores[1])
-            // }
-
         }
         initialize();
     }, [stores]);
@@ -141,28 +114,6 @@ export function TableStores({
         }
         initialize();
     }, [storesN]);
-    // const version = JSON.parse(localStorage.getItem('versionInfo')) //= localStorage.getItem('versionInfo');
-    // const magaz = localStorage.getItem('storesInfo') != null ? JSON.parse(localStorage.getItem('storesInfo')) : []
-    // const [storesi, setStores] = useState<Store[]>([])
-    // const magaz = localStorage.getItem('storesInfo')
-    // let inf
-    //
-    // useEffect(() => {
-    //     async function initialize() {
-    //         const storesData = await fetchReleases();
-    //         setStores(storesData)
-    //     }
-    //     initialize();
-    // }, [version]);
-    //
-    // async function fetchReleases(): Promise<Store[]> {
-    //     const info = localStorage.getItem('versionInfo');
-    //     if (info == null || info == undefined || info =='') {
-    //         throw new Error('Ошибка. нет информации по магазинам');
-    //     }
-    //     const data = JSON.parse(info)
-    //     return data;
-    // }
 
     const handleSaveGoogle = () => {
         if(version != '' || version != null || version != 'null'){
@@ -197,14 +148,6 @@ export function TableStores({
         }
     };
     const handleSaveRuStore = () => {
-        // let elem = document.getElementById("rustore-errors")
-        // let is_er = elem.getAttribute("che")
-        // let result = false
-        // console.log('elem', elem)
-        // console.log('is_er', is_er)
-        // if(is_er == "checked"){
-        //     result = true
-        // }
         if(version != '' || version != null || version != 'null'){
             const apiUrlRuStore = `http://localhost:8080/set_version_info?version=${version}&store=RuStore&deployDate=${storeRuStore?.DeployDate}&installPercentage=${storeRuStore?.InstallPercentage}&isErrors=${isErrorsRu}`;
             console.log('url:', apiUrlRuStore)
@@ -215,61 +158,6 @@ export function TableStores({
         }
     };
 
-    const handleSwitchChange = (checked) => {
-        console.log("SWITCH CHEKED");
-        setState(checked);
-    };
-    const ChangeInfo = (event) => {
-        console.log(event.target.value);
-        console.log("id", event.target.id, '-', event.target.name);
-
-        // loop over the todos list and find the provided id.
-        let updatedList = storesN.map(item =>
-        {
-            if(item.Store == "Google Play") {
-                if (event.target.id == 'google-deploy') {
-                    return {...item, DeployDate: event.target.value}; //gets everything that was already in item, and updates "done"
-                } else if (event.target.id == 'google-percentage') {
-                    return {...item, InstallPercentage: event.target.value}; //gets everything that was already in item, and updates "done"
-                }else if (event.target.id == 'google-errors') {
-                    console.log('checed',  event.target.checked, event.target.name)
-
-                    setState(event.target.checked);
-                //     // return {...item, IsErrors: !event.target.checked};//gets everything that was already in item, and updates "done"
-                }
-            }else if(item.Store == "App Store") {
-                if (event.target.id == 'apple-deploy') {
-                    return {...item, DeployDate: event.target.value}; //gets everything that was already in item, and updates "done"
-                } else if (event.target.id == 'apple-percentage') {
-                    return {...item, InstallPercentage: event.target.value}; //gets everything that was already in item, and updates "done"
-                } else if (event.target.id == 'apple-errors') {
-                    return {...item, IsErrors: event.target.checked }; //gets everything that was already in item, and updates "done"
-                }
-            }else if(item.Store == "Huawei AppGallery") {
-                if (event.target.id == 'huawei-deploy') {
-                    return {...item, DeployDate: event.target.value}; //gets everything that was already in item, and updates "done"
-                } else if (event.target.id == 'huawei-percentage') {
-                    return {...item, InstallPercentage: event.target.value}; //gets everything that was already in item, and updates "done"
-                } else if (event.target.id == 'huawei-errors') {
-                    return {...item, IsErrors: event.target.value}; //gets everything that was already in item, and updates "done"
-                }
-            }
-            if (event.target.id == 'rustore-deploy') {
-                console.log("event.target.id ", event.target.id )
-                console.log("event.target.value ", event.target.value )
-                console.log("item ", item )
-                return {...item, DeployDate: event.target.value}; //gets everything that was already in item, and updates "done"
-            } else if (event.target.id == 'rustore-percentage') {
-                return {...item, InstallPercentage: event.target.value}; //gets everything that was already in item, and updates "done"
-            } else if (event.target.id == 'rustore-errors') {
-                return {...item, IsErrors: event.target.value}; //gets everything that was already in item, and updates "done"
-            }
-
-
-            return item; // else return unmodified item
-        });
-        setStoresN(updatedList); // set state to new object with updated list
-    }
     const updateStorePropertyGo = (property : keyof Store, value : string) => {
         setGoogle(prevStore => ({ ...prevStore, [property]: value }));
     };
@@ -305,60 +193,24 @@ export function TableStores({
     }
 
     const ChangeInfoRu = (event) => {
-        console.log("event.target.id ", event.target.id )
-        console.log("event.target.value ", event.target.value )
         if (event.target.id == 'rustore-deploy') {
-            console.log("event.target.id ", event.target.id )
-            console.log("event.target.value ", event.target.value )
             updateStorePropertyRu('DeployDate', event.target.value )
         } else if (event.target.id == 'rustore-percentage') {
             updateStorePropertyRu('InstallPercentage', event.target.value )
-        } else if (event.target.id == 'rustore-errors') {
-            // document.getElementById()
-            console.log("event.target.id ", event.target.id )
-            console.log("event.target.value ", event.target.value )
-            console.log("SWITCHHHHH", event.target.value )
-
-            // updateStoreProperty('IsErrors', event.target.value )
         }
     }
     const ChangeInfoSwitchGo = (event) => {
-        if(isErrorsGo){
-            setIsErrorsGo(false)
-        }else {
-            setIsErrorsGo(true)
-        }
+        setIsErrorsGo(!isErrorsGo)
     }
     const ChangeInfoSwitchAp = (event) => {
-        if(isErrorsAp){
-            setIsErrorsAp(false)
-        }else {
-            setIsErrorsAp(true)
-        }
+        setIsErrorsAp(!isErrorsAp)
     }
     const ChangeInfoSwitchHu = (event) => {
-        if(isErrorsHu){
-            setIsErrorsHu(false)
-        }else {
-            setIsErrorsHu(true)
-        }
+        setIsErrorsHu(!isErrorsHu)
     }
     const ChangeInfoSwitchRu = (event) => {
-        let elem = document.getElementById("rustore-errors")
-        let is_er = elem.getAttribute("checked")
-        let result = false
-        console.log('elem', elem)
-        console.log('is_er', is_er)
-        if(isErrorsRu){
-            setIsErrorsRu(false)
-        }else {
-            setIsErrorsRu(true)
-        }
+        setIsErrorsRu(!isErrorsRu)
     }
-
-    const handleSwitchToggleRu = () => {
-        setIsErrorsRu(prevState => !prevState);
-    };
 
     return(
         <div className="table-platforms-cont pt-2">
