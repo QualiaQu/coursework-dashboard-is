@@ -223,7 +223,7 @@ export function TableStores({
                 </div>
                 <div className="cell">
                     <h2 className="w-[110px] shop google">{storeGoogle != null ? "Google Play" : "google"}</h2>
-                    <Input id={"google-deploy"} className="w-[110px] cell-deploy"
+                    <Input id={"google-deploy"} className="w-[110px] cell-deploy" type={"date"}
                            value={storeGoogle != null
                                ? (storeGoogle.DeployDate != "undefined" ? storeGoogle.DeployDate : 'Введите дату')
                                : 'Введите дату'} onChange={ChangeInfoGo}></Input>
@@ -246,7 +246,7 @@ export function TableStores({
 
                 <div className="cell">
                     <h2 className="w-[110px] shop apple">{storeApple!= null ? "App Store"  : "apple store"}</h2>
-                    <Input id={"apple-deploy"} className="w-[110px] cell-deploy"
+                    <Input id={"apple-deploy"} className="w-[110px] cell-deploy" type={"date"}
                            value={storeApple != null
                                ? (storeApple.DeployDate != "undefined" ? storeApple.DeployDate : 'Введите дату')
                                : 'Введите дату'} onChange={ChangeInfoAp}></Input>
@@ -268,7 +268,7 @@ export function TableStores({
                 </div>
                 <div className="cell">
                     <h2 className="w-[110px] shop apple">{storeHuawei != null ? "Huawei AppGallery"  : "huawei appGallery"}</h2>
-                    <Input id={"huawei-deploy"} className="w-[110px] cell-deploy"
+                    <Input id={"huawei-deploy"} className="w-[110px] cell-deploy" type={"date"}
                            value={storeHuawei != null
                                ? (storeHuawei.DeployDate != "undefined" ? storeHuawei.DeployDate : 'Введите дату')
                                : 'Введите дату'} onChange={ChangeInfoHu}></Input>
@@ -291,7 +291,7 @@ export function TableStores({
                 <div className="cell">
                     <h2 className="w-[110px] shop apple">{storeRuStore != null ? "RuStore"  : "rustore"}</h2>
 
-                    <Input id={"rustore-deploy"} className="w-[110px] cell-deploy"
+                    <Input id={"rustore-deploy"} className="w-[110px] cell-deploy" type={"date"}
                            value={storeRuStore != null
                                ? (storeRuStore.DeployDate != "undefined" ? storeRuStore.DeployDate : 'Введите дату')
                                : 'Введите дату'} onChange={ChangeInfoRu}></Input>
