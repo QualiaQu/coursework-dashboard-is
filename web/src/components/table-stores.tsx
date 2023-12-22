@@ -71,6 +71,10 @@ export function TableStores({
             setApple(undefined)
             setHuawei(undefined)
             setRuStore(undefined)
+            setIsErrorsGo(false)
+            setIsErrorsAp(false)
+            setIsErrorsHu(false)
+            setIsErrorsRu(false)
             if(storesN.length == 0){
                 return
             }
@@ -266,9 +270,39 @@ export function TableStores({
         });
         setStoresN(updatedList); // set state to new object with updated list
     }
-    const updateStoreProperty = (property : keyof Store, value : string) => {
+    const updateStorePropertyGo = (property : keyof Store, value : string) => {
+        setGoogle(prevStore => ({ ...prevStore, [property]: value }));
+    };
+    const updateStorePropertyAp = (property : keyof Store, value : string) => {
+        setApple(prevStore => ({ ...prevStore, [property]: value }));
+    };
+    const updateStorePropertyHu = (property : keyof Store, value : string) => {
+        setHuawei(prevStore => ({ ...prevStore, [property]: value }));
+    };
+    const updateStorePropertyRu = (property : keyof Store, value : string) => {
         setRuStore(prevStore => ({ ...prevStore, [property]: value }));
     };
+    const ChangeInfoGo = (event) => {
+        if (event.target.id == 'google-deploy') {
+            updateStorePropertyGo('DeployDate', event.target.value )
+        } else if (event.target.id == 'google-percentage') {
+            updateStorePropertyGo('InstallPercentage', event.target.value )
+        }
+    }
+    const ChangeInfoAp = (event) => {
+        if (event.target.id == 'apple-deploy') {
+            updateStorePropertyAp('DeployDate', event.target.value )
+        } else if (event.target.id == 'apple-percentage') {
+            updateStorePropertyAp('InstallPercentage', event.target.value )
+        }
+    }
+    const ChangeInfoHu = (event) => {
+        if (event.target.id == 'huawei-deploy') {
+            updateStorePropertyHu('DeployDate', event.target.value )
+        } else if (event.target.id == 'huawei-percentage') {
+            updateStorePropertyHu('InstallPercentage', event.target.value )
+        }
+    }
 
     const ChangeInfoRu = (event) => {
         console.log("event.target.id ", event.target.id )
@@ -276,9 +310,9 @@ export function TableStores({
         if (event.target.id == 'rustore-deploy') {
             console.log("event.target.id ", event.target.id )
             console.log("event.target.value ", event.target.value )
-            updateStoreProperty('DeployDate', event.target.value )
+            updateStorePropertyRu('DeployDate', event.target.value )
         } else if (event.target.id == 'rustore-percentage') {
-            updateStoreProperty('InstallPercentage', event.target.value )
+            updateStorePropertyRu('InstallPercentage', event.target.value )
         } else if (event.target.id == 'rustore-errors') {
             // document.getElementById()
             console.log("event.target.id ", event.target.id )
@@ -326,88 +360,6 @@ export function TableStores({
         setIsErrorsRu(prevState => !prevState);
     };
 
-    // if (version == "" || magaz == 'null' || magaz == null || magaz == ""){
-    //     return (
-    //         <div className="table-platforms-cont pt-2">
-    //             <div className="table-platforms border rounded-md p-1 font-medium text-sm text-muted-foreground">
-    //                 <div className="table-platforms-header">
-    //                     <h2 className="shop_header">Магазин</h2>
-    //                     <h2 className="date-deploy_header">Дата деплоя</h2>
-    //                     <h2 className="percentage_rolling_header">Процент раскатки</h2>
-    //                     <h2>Ошибки</h2>
-    //                 </div>
-    //                 <div className="cell">
-    //                     <h2 className="w-[110px] shop google">Google</h2>
-    //                     <Input className="w-[110px] cell-deploy" defaultValue={'Введите дату'}></Input>
-    //                     <Input className="w-[110px] cell-percentage" defaultValue={'Введите процент'}></Input> {/*storeGoogle?.InstallPercentage*/}
-    //                     <Input className="w-[110px] cell-percentage" defaultValue={'Есть ли ошибки?'}></Input>
-    //                 </div>
-    //                 <div className="cell">
-    //                     <h2 className="w-[110px] shop apple">Apple</h2>
-    //                     <Input className="w-[110px] cell-deploy" defaultValue={'Введите дату'} onChange={handleChangeAplleDeplotInfo}></Input>
-    //                     <Input className="w-[110px] cell-percentage" defaultValue={'Введите процент'} onChange={handleChangeApllePercentageInfo}></Input>
-    //                     <Input className="w-[110px] cell-percentage" defaultValue={'Есть ли ошибки?'} onChange={handleChangeAplleErrorsInfo}></Input>
-    //                 </div>
-    //                 <Button
-    //                     variant="default"
-    //                     size="sm"
-    //                     className="-ml-3 h-8 data-[state=open]:bg-accent ml-0.5"
-    //                     onClick={handleSave}
-    //                 >
-    //                     <span>{"Сохранить"}</span>
-    //                 </Button>
-    //             </div>
-    //         </div>
-    //     )
-    // }else {
-    //     inf = JSON.parse(localStorage.getItem('storesInfo'))
-    //     console.log(inf, "after parse", inf[0].Version, version )
-    //
-    // }
-
-
-
-    // console.log(version)
-    // const [stores, setStores] = useState<Store[]>([]);
-    // const [storeGoogle, setStoreGoogle] = useState<Store>();
-    // const [storeApple, setStoreApple] = useState<Store>();
-    // console.log('check', version , storeGoogle?.Version, storeApple?.Version)
-    // useEffect(() => {
-    //     async function initialize() {
-    //         const storesData = await fetchStores();
-    //         setStores(storesData);
-    //         localStorage.setItem('storesInfo', JSON.stringify(storesData));
-    //         setStoreGoogle(storesData[0])
-    //         setStoreApple(storesData[1])
-    //     }
-    //     initialize();
-    // }, []);
-
-    // async function fetchStores(): Promise<Store[]> {
-    //     const response = await fetch(`http://localhost:8080/get_version_info?version=${version}`);
-    //     if (!response.ok) {
-    //         throw new Error('Ошибка сети');
-    //     }
-    //     const data = await response.json();
-    //     if (data != null){
-    //         localStorage.setItem('infoGoogle', JSON.stringify(data[0]));
-    //         if (data[1] != null){
-    //             localStorage.setItem('infoApple', JSON.stringify(data[1]));
-    //         }
-    //     }
-    //
-    //     return data;
-    // }
-
-
-
-    // if (version == "\"\"" || version == null){
-    //     return <div className="w-1/2"></div>
-    // }
-
-    // const sInfo = localStorage.getItem('infoStores') != null ? JSON.parse(localStorage.getItem('infoStores')) : []
-    // console.log("infoPROPS", stores, stores.length, stores.length >= 1 )
-    // console.log("infoUserState", storesN, storesN.length, storesN.length >= 1 )
     return(
         <div className="table-platforms-cont pt-2">
             <div className="table-platforms border rounded-md p-1 font-medium text-sm text-muted-foreground">
@@ -418,15 +370,15 @@ export function TableStores({
                     <h2>Ошибки</h2>
                 </div>
                 <div className="cell">
-                    <h2 className="w-[110px] shop google">{storeGoogle != null ? storeGoogle.Store  : "google"}</h2>
+                    <h2 className="w-[110px] shop google">{storeGoogle != null ? "Google Play" : "google"}</h2>
                     <Input id={"google-deploy"} className="w-[110px] cell-deploy"
                            value={storeGoogle != null
                                ? (storeGoogle.DeployDate != "undefined" ? storeGoogle.DeployDate : 'Введите дату')
-                               : 'Введите дату'} onChange={ChangeInfo}></Input>
+                               : 'Введите дату'} onChange={ChangeInfoGo}></Input>
                     <Input id={"google-percentage"} className="w-[110px] cell-percentage"
                            value={storeGoogle != null
                                ? (storeGoogle.InstallPercentage != "undefined" ? storeGoogle.InstallPercentage : 'Введите процент')
-                               : 'Введите процент'}  onChange={ChangeInfo}></Input> {/*storeGoogle?.InstallPercentage*/}
+                               : 'Введите процент'}  onChange={ChangeInfoGo}></Input> {/*storeGoogle?.InstallPercentage*/}
                     {/*<Input id={"google-errors"} className="w-[110px] cell-percentage" value={(storesN.length >= 1) ? (storesN[0].IsErrors ) : 'Есть ли ошибки?'} onChange={ChangeGoogleDeplotInfo}></Input> /* == "0" ? "false" : "true"*/}
                     {/*<Switch id={"google-errors"} checked={state} onChange={ChangeInfo}></Switch>*/}
                     <input id={"google-errors"} type={"checkbox"} checked={isErrorsGo} onChange={ChangeInfoSwitchGo}/>
@@ -439,16 +391,17 @@ export function TableStores({
                         <span>{"Сохранить"}</span>
                     </Button>
                 </div>
+
                 <div className="cell">
-                    <h2 className="w-[110px] shop apple">{storeApple!= null ? storeApple.Store  : "apple store"}</h2>
+                    <h2 className="w-[110px] shop apple">{storeApple!= null ? "App Store"  : "apple store"}</h2>
                     <Input id={"apple-deploy"} className="w-[110px] cell-deploy"
                            value={storeApple != null
                                ? (storeApple.DeployDate != "undefined" ? storeApple.DeployDate : 'Введите дату')
-                               : 'Введите дату'} onChange={ChangeInfo}></Input>
+                               : 'Введите дату'} onChange={ChangeInfoAp}></Input>
                     <Input id={"apple-percentage"} className="w-[110px] cell-percentage"
                            value={storeApple != null
                                ? (storeApple.InstallPercentage != "undefined" ? storeApple.InstallPercentage : 'Введите процент')
-                               : 'Введите процент'}  onChange={ChangeInfo}></Input>
+                               : 'Введите процент'}  onChange={ChangeInfoAp}></Input>
                     {/*<Input id={"apple-errors"} className="w-[110px] cell-percentage" value={(storesN.length >= 2) ?  storesN[1].IsErrors : 'Есть ли ошибки?'} onChange={ChangeGoogleDeplotInfo}></Input>*/}
                     {/*<Switch checked={stores != null ? ((storesN.length >= 2) ? (storesN[1].IsErrors == "1")  : false) :false}  onChange={ChangeInfo}></Switch>*/}
                     <input id={"apple-errors"} type={"checkbox"} checked={isErrorsAp} onChange={ChangeInfoSwitchAp}/>
@@ -462,15 +415,15 @@ export function TableStores({
                     </Button>
                 </div>
                 <div className="cell">
-                    <h2 className="w-[110px] shop apple">{storeHuawei != null ? storeHuawei.Store  : "huawei appGallery"}</h2>
+                    <h2 className="w-[110px] shop apple">{storeHuawei != null ? "Huawei AppGallery"  : "huawei appGallery"}</h2>
                     <Input id={"huawei-deploy"} className="w-[110px] cell-deploy"
                            value={storeHuawei != null
                                ? (storeHuawei.DeployDate != "undefined" ? storeHuawei.DeployDate : 'Введите дату')
-                               : 'Введите дату'} onChange={ChangeInfo}></Input>
+                               : 'Введите дату'} onChange={ChangeInfoHu}></Input>
                     <Input id={"huawei-percentage"} className="w-[110px] cell-percentage"
                            value={storeHuawei != null
                                ? (storeHuawei.InstallPercentage != "undefined" ? storeHuawei.InstallPercentage : 'Введите процент')
-                               : 'Введите процент'}  onChange={ChangeInfo}></Input>
+                               : 'Введите процент'}  onChange={ChangeInfoHu}></Input>
                     <input id={"huawei-errors"} type={"checkbox"} checked={isErrorsHu} onChange={ChangeInfoSwitchHu}/>
                     {/*<Switch checked={stores != null ? ((storesN.length >= 3) ? (storesN[2].IsErrors == "1")  : false) : false } onChange={ChangeInfo}></Switch>*/}
                     {/*<Input id={"huawei-errors"} className="w-[110px] cell-percentage" value={(storesN.length >= 2) ?  storesN[2].IsErrors : 'Есть ли ошибки?'} onChange={ChangeGoogleDeplotInfo}></Input>*/}
