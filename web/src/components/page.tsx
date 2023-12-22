@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import { Input } from "@/registry/new-york/ui/input"
 import { Progress } from "@/components/ui/progress"
+import {Button} from "@/registry/new-york/ui/button.tsx";
 // token ba7370ee222dc3fbab4b745b295ccae71cad12d0
 
 
@@ -82,6 +83,12 @@ function getTasks(tasks : Task[]) {
 }
 interface TaskPageProps {
     // Добавьте необходимые пропсы
+}
+
+function handleCreateRequest() {
+
+    window.open('https://noc-new.is74.ru/agreement/main/create.html', '_blank');
+
 }
 
 const TaskPage: React.FC<TaskPageProps> = () => {
@@ -175,7 +182,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     return (
         <>
             <UserNav/>
-            <div className="flex items-center pl-8 pt-4 justify-between">
+            <div className="items-center pl-8 pt-4 justify-between">
                 <select id="sel"  className="h-8 w-[150px] lg:w-[250px] rounded-md border-gray-300" onChange={handleReleaseChange} value={selectedRelease}>
                     <option  value="">Выберите релиз</option>
                     {releases.map((release) => (
@@ -184,6 +191,11 @@ const TaskPage: React.FC<TaskPageProps> = () => {
                         </option>
                     ))}
                 </select>
+                <Button
+                    className="ml-4 px-4 py-2 bg-accent text-white rounded-md"
+                    onClick={handleCreateRequest} >
+                    Создать заявку на согласование
+                </Button>
             </div>
             <div className="page-main">
                 <div className="h-full flex-1 flex-col w-1/2 space-y-2 px-8 pt-2 md:flex">
