@@ -3,11 +3,13 @@ import { DataTable } from "@/components/data-table"
 import { TableStores } from "@/components/table-stores.tsx"
 import { UserNav } from "@/components/user-nav"
 import { DatePickerDemo } from "@/registry/new-york/ui/date-picker.tsx"
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useNavigate} from "react-router-dom";
 import { Input } from "@/registry/new-york/ui/input"
 import { Progress } from "@/components/ui/progress"
 import {Button} from "@/registry/new-york/ui/button.tsx";
+import debounce from 'lodash/debounce';
+
 // token ba7370ee222dc3fbab4b745b295ccae71cad12d0
 
 
@@ -96,6 +98,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     const [selectedRelease, setSelectedRelease] = useState<string>('');
     const [tasksForRelease, setTasksForRelease] = useState<Task[]>([]);
     const [storesForRelease, setStoresForRelease] = useState<Store[]>([]);
+    const selectedReleaseRef = useRef(selectedRelease);
     const storedToken = localStorage.getItem('token');
     const navigate = useNavigate();
     if (storedToken == null) {
@@ -108,15 +111,18 @@ const TaskPage: React.FC<TaskPageProps> = () => {
             setReleases(releasesData);
 
             const dataUpdateIntervalId = setInterval(async () => {
-                if (selectedRelease) {
-                    const updatedTasks = await fetchTasksForRelease(selectedRelease);
+                if (selectedReleaseRef.current) {
+                    const updatedTasks = await fetchTasksForRelease(selectedReleaseRef.current);
                     setTasksForRelease(updatedTasks);
                 }
             }, 60000);
         }
 
-        // Вызов функции инициализации
         initialize();
+    }, []);
+
+    useEffect(() => {
+        selectedReleaseRef.current = selectedRelease;
     }, [selectedRelease]);
 
     async function fetchReleases(): Promise<Release[]> {
