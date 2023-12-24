@@ -141,7 +141,7 @@ export function TableStores({
     };
     const handleSaveApple = () => {
         if(version != '' || version != null || version != 'null'){
-            const percentage = storeGoogle?.InstallPercentage.replace(/%/,'')
+            const percentage = storeApple?.InstallPercentage.replace(/%/,'')
             const apiUrlApple = `http://localhost:8080/set_version_info?version=${version}&store=App%20Store&deployDate=${storeApple?.DeployDate}&installPercentage=${percentage}&isErrors=${isErrorsAp}`;
             console.log('url:', apiUrlApple)
             axios.post(apiUrlApple)
@@ -152,7 +152,7 @@ export function TableStores({
     };
     const handleSaveHuawei = () => {
         if(version != '' || version != null || version != 'null'){
-            const percentage = storeGoogle?.InstallPercentage.replace(/%/,'')
+            const percentage = storeHuawei?.InstallPercentage.replace(/%/,'')
             const apiUrlHuawei = `http://localhost:8080/set_version_info?version=${version}&store=Huawei%20AppGallery&deployDate=${storeHuawei?.DeployDate}&installPercentage=${percentage}&isErrors=${isErrorsHu}`;
             console.log('url:', apiUrlHuawei)
             axios.post(apiUrlHuawei)
@@ -163,7 +163,7 @@ export function TableStores({
     };
     const handleSaveRuStore = () => {
         if(version != '' || version != null || version != 'null'){
-            const percentage = storeGoogle?.InstallPercentage.replace(/%/,'')
+            const percentage = storeRuStore?.InstallPercentage.replace(/%/,'')
             const apiUrlRuStore = `http://localhost:8080/set_version_info?version=${version}&store=RuStore&deployDate=${storeRuStore?.DeployDate}&installPercentage=${percentage}&isErrors=${isErrorsRu}`;
             console.log('url:', apiUrlRuStore)
             axios.post(apiUrlRuStore)
