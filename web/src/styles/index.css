@@ -110,7 +110,7 @@ select{
     width: 100%;
 }
 input {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     background-color: white;
@@ -133,23 +133,28 @@ input {
 }
 .table-platforms-header{
   display: flex;
+  gap: 46px;
 }
 .shop_header{
-  margin-right: 28px;
+  width: 70px;
 }
 .date-deploy_header{
-  margin-right: 64px;
+  min-width: 95px;
 }
-.percentage_rolling_header{
-  margin-right: 42px;
-}
+/*.percentage_rolling_header{*/
+/*  min-width: 150px;*/
+/*}*/
 .cell{
   display: flex;
-  gap: 30px;
+  gap: 10px;
   margin-top: 5px;
 }
 .shop{
-  width: 35px;/*120px;*/
+  max-width: 60px;
+  margin-right: 15px;
+}
+.shop-ru{
+  min-width: 60px;
   margin-right: 15px;
 }
 
@@ -159,6 +164,15 @@ input {
 .rustore{
   margin-right: 4px;
 }
-.date-deploy{
-  width: 95px;
+.cell-deploy{
+    max-width: 153px;
+}
+.cell-percentage{
+  max-width: 153px;
+}
+.cont-errors{
+  width: 100px;
+}
+.errors{
+  transform: scale(2);
 }
