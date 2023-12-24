@@ -289,7 +289,7 @@ export function TableStores({
                 </div>
 
                 <div className="cell">
-                    <div className="shop apple">{storeApple!= null ? "App Store"  : "AppStore"}</div>
+                    <div className="shop-ru apple">{storeApple!= null ? "App Store"  : "AppStore"}</div>
                     <Input id={"apple-deploy"} className="w-[110px] cell-deploy" type={"date"}
                            value={storeApple != null
                                ? (storeApple.DeployDate != "undefined" ? storeApple.DeployDate : 'Введите дату')
